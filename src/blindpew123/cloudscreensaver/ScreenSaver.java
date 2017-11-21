@@ -31,9 +31,9 @@ public class ScreenSaver {
 		}
 		System.out.println("1. "+startFoldersPathNames); //TODO: Remove
 		
-		feeder = new ImageFeeder(displayModule.getPrefferableImageSize(), ImageFileListReadersManager.getInstance().getFileTrees(startFoldersPathNames.split(";")));
-		//TODO: создание и выбор демонстратора на основе настроек. Передача ему Фидера.
-		displayModule = new Display(feeder);				
+		//TODO: создание и выбор демонстратора на основе настроек.
+		displayModule = new Display();
+	//	feeder = new ImageFeeder(displayModule.getPrefferableImageSize(), ImageFileListReadersManager.getInstance().getFileTrees(startFoldersPathNames.split(";")));
 		initSuccess = true;
 	}
 	

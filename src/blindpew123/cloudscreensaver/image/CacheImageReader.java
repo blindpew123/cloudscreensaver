@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class CacheImageReader extends ImageReader {
 
-	Map<String, BufferedImage> cache = new HashMap<>();
+	private Map<String, BufferedImage> cache = new HashMap<>();
 	
 	CacheImageReader(ImageReader reader) {
 		super(reader);

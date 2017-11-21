@@ -31,8 +31,8 @@ class ImageResizer extends ImageReader{
 			double scale = (double)result.width/img.getWidth();
 			result.height = (int)(img.getHeight()*scale);
 		}
-		System.out.println(img.getWidth()+ " "+img.getHeight());
-		System.out.println(result.width+ " "+result.height);
+		System.out.println(img.getWidth()+ " "+img.getHeight()); //TODO: Remove
+		System.out.println(result.width+ " "+result.height); // TODO: Remove
 		return result;
 	}
 

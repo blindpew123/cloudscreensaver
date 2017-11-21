@@ -2,8 +2,8 @@ package blindpew123.cloudscreensaver.image;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.imageio.ImageIO;
@@ -12,11 +12,12 @@ import blindpew123.cloudscreensaver.settings.SettingsFile;
 
 public class DefaultImageReader extends ImageReader {
 
+	//TODO: check real path after deploy
 	private String[] defaultImages = {
-		"blindpew123/cloudscreensaver/resources/DSC01594.jpg",
-		"blindpew123/cloudscreensaver/resources/DSC02143.jpg",
-		"blindpew123/cloudscreensaver/resources/DSC04343.jpg",
-		"blindpew123/cloudscreensaver/resources/DSC04485.jpg"
+		"src/blindpew123/cloudscreensaver/resources/DSC01594.jpg",
+		"src/blindpew123/cloudscreensaver/resources/DSC02143.jpg",
+		"src/blindpew123/cloudscreensaver/resources/DSC04343.jpg",
+		"src/blindpew123/cloudscreensaver/resources/DSC04485.jpg"
 	};	
 
 	DefaultImageReader(ImageReader reader) {
@@ -41,8 +42,8 @@ public class DefaultImageReader extends ImageReader {
 	}
 	
 	private BufferedImage getDefaultImage() throws IOException {
-		int index = ThreadLocalRandom.current().nextInt(4);	
-		BufferedImage image = ImageIO.read(new File(defaultImages[index]));
+		int index = ThreadLocalRandom.current().nextInt(4);
+		BufferedImage image = ImageIO.read(Paths.get(defaultImages[index]).toAbsolutePath().toFile());
 		return image;
 	}
 	

@@ -3,7 +3,6 @@ package blindpew123.cloudscreensaver.image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Properties;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.*;
 
 import blindpew123.cloudscreensaver.imagelistreaders.ImageFileList;
@@ -22,7 +21,7 @@ public class ImageFeeder {
 	 */
 	private Rectangle prefferableSize;
 	private ImageFileList fileList;
-	private BlockingQueue<BufferedImage> readyImage;
+	private SynchronousQueue<BufferedImage> readyImage = new SynchronousQueue<>();
 	
 	private class ImageProcessor implements Runnable {
 
@@ -35,22 +34,35 @@ public class ImageFeeder {
 		
 		@Override
 		public void run() {
-			while(true) {
-			// Получить очередное имя файла
-			// запросить у ридера файл по имени
-			// передать его ресайзеру
-			// запихнуть в очередь
-			// TODO: Мы можем полуить рантайм - нужно вывести диалог	
-				readyImage.put(imgReader.getImage(fileList.nextImage()));
+			System.out.println("started");
+			while(true) {			
+				try{
+					String path = fileList.nextImagePath();
+					System.out.println(path);
+					readyImage.put(imgReader.getImage(path));
+				} catch (InterruptedException e) {
+					// TODO: RuntimeError - Message For User???
+					throw new RuntimeException(e);
+				}
 			}		
 		}
 	}
 	
 	public ImageFeeder(Rectangle prefferableSize, ImageFileList fileList) {
 		this.prefferableSize = prefferableSize;
-		this.fileList = fileList;
-		System.out.printn("3. "+fileList.getSize());
+		this.fileList = fileList;		
+	}
+	
+	void startFeed() {
 		new Thread(new ImageProcessor()).start();
+	}
+	
+	BufferedImage getReadyImageFromQueue() {
+		try {
+			return readyImage.take();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	

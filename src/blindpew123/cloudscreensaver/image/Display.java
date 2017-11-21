@@ -11,7 +11,7 @@ import java.io.IOException;
 
 /* Абстрактный класс для описывающий шаблонный метод 
  * TODO: Реализовать СлайдШоу в отдельном классе 
- */
+ * */
 
 
 
@@ -40,8 +40,7 @@ public class Display extends JPanel implements ActionListener{
 		}
 	}
 	
-	public Display(ImageFeeder feeder) {
-		this.feeder = feeder;
+	public Display() {
 		setKeyHandler(new KeyHandler());
 		setMouseHandler(new MouseHandler());
 		
@@ -71,7 +70,7 @@ public class Display extends JPanel implements ActionListener{
 		g.drawImage(img, getImagePosition(img).width, getImagePosition(img).height, null);
 	}
 	
-	public void display() {
+	public void display(ImageFeeder feeder) {
 		// TODO: получить изображение из очереди
 		setImage(img);
 		repaint();
