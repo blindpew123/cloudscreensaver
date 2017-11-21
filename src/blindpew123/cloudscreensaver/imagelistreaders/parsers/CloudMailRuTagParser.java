@@ -31,7 +31,7 @@ public class CloudMailRuTagParser extends WordParser {
 		TYPE {
 			void processTag(String value) {
 				if (value.equals("folder")||value.equals("file")) {
-					if (link == null) throw new IllegalArgumentException("Отсутствует рабочая ссылка для данного типа");
+					if (link == null) throw new IllegalArgumentException("Can't work with null link");
 					localcontext.getContext().getFileMap().put(link, value.equals("folder"));
 					link = null;
 				}
@@ -54,7 +54,9 @@ public class CloudMailRuTagParser extends WordParser {
 	
 	@Override
 	protected boolean process(String value) {
-		currentState.processTag(value);
+		if(value!=null) {
+			currentState.processTag(value);
+		}
 		return false; // true or false doesn't matter in this implementation 
 	}
 }

@@ -23,28 +23,6 @@ class LocalFileSystemImageFileListReader extends ImageFileListReader{
 		startPath = path;
 	}
 	
-
-	public ImageFileList _readList() {
-		
-		String names[] = ImageIO.getReaderFormatNames();
-		BiPredicate<Path, BasicFileAttributes> filter = (pth, attr)->{
-			for (String ext:names) {
-				if (pth.toString().endsWith(ext)) return true;
-			}
-			return false;
-		};	
-		List<String> result;
-		try {				
-			 result = Files.find(Paths.get(startPath), Integer.MAX_VALUE,filter)
-				.parallel()
-				.map(p->p.toString())
-				.collect(Collectors.toList());			
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		return new ImageFileList(result);
-	}
-	
 	@Override
 	public ImageFileList readList() {
 		
@@ -59,25 +37,27 @@ class LocalFileSystemImageFileListReader extends ImageFileListReader{
 		
 		List<String> result = new ArrayList<String>();
 		
-		try {
-			Files.walkFileTree(Paths.get(startPath), new SimpleFileVisitor<Path>() {
-	            @Override
-	            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-	
-	                String fileName = file.toString();
-	            	if (isFormatSupported.test(fileName)) {
-	                	result.add(fileName);
-	                }
-	                return FileVisitResult.CONTINUE;
-	            }
-	
-	            @Override
-	            public FileVisitResult visitFileFailed(Path file, IOException exp) {
-	                return FileVisitResult.CONTINUE;
-	            }
-	        });
-		}catch (IOException e) {
-			throw new RuntimeException(e);
+		if(startPath != null) {		
+			try {
+				Files.walkFileTree(Paths.get(startPath), new SimpleFileVisitor<Path>() {
+		            @Override
+		            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+		
+		                String fileName = file.toString();
+		            	if (isFormatSupported.test(fileName)) {
+		                	result.add(fileName);
+		                }
+		                return FileVisitResult.CONTINUE;
+		            }
+		
+		            @Override
+		            public FileVisitResult visitFileFailed(Path file, IOException exp) {
+		                return FileVisitResult.CONTINUE;
+		            }
+		        });
+			}catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 		return new ImageFileList(result);
 	}

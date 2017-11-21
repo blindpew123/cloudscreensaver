@@ -14,7 +14,7 @@ public class ImageFileList {
 		imagesList = new ArrayList<>();
 	}
 	
-	ImageFileList(List<String> imagesList){
+	ImageFileList(Collection<String> imagesList){
 		this.imagesList = new ArrayList<>(imagesList);
 	}
 	
@@ -31,6 +31,7 @@ public class ImageFileList {
 	}
 	
 	public String nextImagePath() {
+		if(imagesList.size() == 0) return null;
 		return imagesList.get(ThreadLocalRandom.current().nextInt(imagesList.size()));
 	}
 	

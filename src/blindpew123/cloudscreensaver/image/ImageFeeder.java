@@ -33,12 +33,10 @@ public class ImageFeeder {
 				)))));
 		
 		@Override
-		public void run() {
-			System.out.println("started");
+		public void run() {			
 			while(true) {			
 				try{
-					String path = fileList.nextImagePath();
-					System.out.println(path);
+					String path = fileList.nextImagePath();	
 					readyImage.put(imgReader.getImage(path));
 				} catch (InterruptedException e) {
 					// TODO: RuntimeError - Message For User???
@@ -53,11 +51,11 @@ public class ImageFeeder {
 		this.fileList = fileList;		
 	}
 	
-	void startFeed() {
+	public void startFeed() {
 		new Thread(new ImageProcessor()).start();
 	}
 	
-	BufferedImage getReadyImageFromQueue() {
+	public BufferedImage getReadyImageFromQueue() {
 		try {
 			return readyImage.take();
 		} catch (InterruptedException e) {

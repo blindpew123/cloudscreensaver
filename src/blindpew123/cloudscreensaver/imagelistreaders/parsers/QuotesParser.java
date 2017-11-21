@@ -1,6 +1,6 @@
 package blindpew123.cloudscreensaver.imagelistreaders.parsers;
 
-/** It is an state machine in two states: The quotes are open and the quotes are closed.
+/** It is a state machine in two states: The quotes are open and the quotes are closed.
  *  Finds the sequence enclosed in quotation marks among the sent characters and not interrupted by the character "\n". 
  *  If this sequence was found, the result of the <b>process(char c)</b> method is true, after receiving the trailing character. 
  *  In this case, StringBuilder object with the sequence within can be retrieved  by calling the inherited method getKeyWord().

@@ -19,31 +19,14 @@ public class CloudMailRuTagParserTest {
 	@Before
 	public void init() {
 		pageParser = new PageParser("no matter", "no matter") {
-
 			@Override
-			protected CharParser initCharParser() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
+			protected void processBuffer(char[] buffer, int limit) {}
 			@Override
-			protected WordParser initWordParser() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
+			protected WordParser initWordParser() {return null;}
 			@Override
-			protected void processBuffer(char[] buffer, int limit) {
-				// TODO Auto-generated method stub
-				
-			}
-
+			protected CharParser initCharParser() {return null;}			
 			@Override
-			protected void finalProcessing() {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			protected void finalProcessing() {}
 		};
 		testParser = new CloudMailRuTagParser(pageParser);
 	}
@@ -62,6 +45,15 @@ public class CloudMailRuTagParserTest {
 		String[] words = new String[]{"oak","weblink","linkname","type","folder","file"};
 		for(String word:words) {
 			testParser.process(word);
+		}
+		assertThat(pageParser.getFileMap().size(),equalTo(0));
+	}
+	
+	@Test
+	public void testCheckIgnoreNull(){
+		String[] words = new String[]{"oak","weblink","linkname","type","folder","file"};
+		for(String word:words) {
+			testParser.process(null);
 		}
 		assertThat(pageParser.getFileMap().size(),equalTo(0));
 	}

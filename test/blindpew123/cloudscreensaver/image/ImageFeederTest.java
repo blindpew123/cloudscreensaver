@@ -16,11 +16,10 @@ public class ImageFeederTest {
 
 	ImageFileList fileList;
 	Rectangle rectangle;
-
 	
 	@Before
 	public void init() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
-		Constructor<ImageFileList> constructor = ImageFileList.class.getDeclaredConstructor(java.util.List.class);
+		Constructor<ImageFileList> constructor = ImageFileList.class.getDeclaredConstructor(java.util.Collection.class);
 		constructor.setAccessible(true);
 		fileList = constructor.newInstance(Arrays.asList(
 				new String[]{
@@ -30,6 +29,7 @@ public class ImageFeederTest {
 				}));
 		rectangle = new Rectangle(200,100);
 	}	
+	
 	
 	@Test
 	public void testInstantinate() {
@@ -42,6 +42,28 @@ public class ImageFeederTest {
 		ImageFeeder feeder = new ImageFeeder(rectangle,fileList);
 		feeder.startFeed();
 		assertNotNull(feeder.getReadyImageFromQueue());
+	}
+	
+	@Test
+	public void testContinuousFeeding() {
+		ImageFeeder feeder = new ImageFeeder(rectangle,fileList);
+		for(int i = 0; i < 5; i++) {
+			feeder.startFeed();
+			assertNotNull(feeder.getReadyImageFromQueue());
+		}
+	}
+	
+	@Test
+	public void testWorkingWithNullist() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		Constructor<ImageFileList> constructor = ImageFileList.class.getDeclaredConstructor(java.util.Collection.class);
+		constructor.setAccessible(true);
+		fileList = constructor.newInstance(Arrays.asList(
+				new String[]{}));
+		ImageFeeder feeder = new ImageFeeder(rectangle,fileList);
+		for(int i = 0; i < 5; i++) {
+			feeder.startFeed();
+			assertNotNull(feeder.getReadyImageFromQueue());
+		}
 	}
 
 }

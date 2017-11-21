@@ -33,14 +33,15 @@ public class ScreenSaver {
 		
 		//TODO: создание и выбор демонстратора на основе настроек.
 		displayModule = new Display();
-	//	feeder = new ImageFeeder(displayModule.getPrefferableImageSize(), ImageFileListReadersManager.getInstance().getFileTrees(startFoldersPathNames.split(";")));
+		feeder = new ImageFeeder(displayModule.getPrefferableImageSize(), ImageFileListReadersManager.getInstance().getFileTrees(startFoldersPathNames.split(";")));
 		initSuccess = true;
 	}
 	
 	public void startScreenSaver() throws InterruptedException {
-		
+		feeder.startFeed();
 		// TODO Решить что делать с Interrupted и другими
 		while(initSuccess) {  //working loop until key or mouse event will not exit app. Also app may will close by catch Exception by ImageFeeder class  
+			displayModule.setImage(feeder.getReadyImageFromQueue());
 			displayModule.display();			
 		}
 		

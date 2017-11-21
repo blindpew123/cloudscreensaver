@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class CloudMailRuPageParser extends PageParser {
-
+	
 	public CloudMailRuPageParser(String basePath, String currentLevelPath) {
 		super(basePath, currentLevelPath);		
 	}

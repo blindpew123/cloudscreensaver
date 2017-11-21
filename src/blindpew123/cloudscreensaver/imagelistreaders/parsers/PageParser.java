@@ -6,7 +6,7 @@ import java.util.concurrent.*;
 import java.net.*;
 
 public abstract class PageParser {	
-	private final Map<String, Boolean> fileMap= new HashMap<>();
+	private final Map<String, Boolean> fileMap = new HashMap<>();
 	
 	private final String basePath;
 	private final String currentLevelPath;

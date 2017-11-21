@@ -7,8 +7,11 @@ import org.junit.Test;
 public class ScreenSaverTest {
 
 	@Test
-	public void test() {
-		new ScreenSaver().initScreenSaver();
+	public void test() throws InterruptedException {
+		ScreenSaver ss = new ScreenSaver();
+		ss.initScreenSaver();
+		ss.startScreenSaver();
+		
 	}
 
 }

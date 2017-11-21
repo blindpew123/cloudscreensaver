@@ -66,19 +66,17 @@ public class Display extends JPanel implements ActionListener{
 	}
 	
 	public void paintImage(Graphics g, BufferedImage img) {
-		// TODO: Remove BufferedImage resizedImg = new ImageResizer(rectangle).resize(img); 
+		if(img == null) return;
 		g.drawImage(img, getImagePosition(img).width, getImagePosition(img).height, null);
 	}
 	
-	public void display(ImageFeeder feeder) {
-		// TODO: получить изображение из очереди
-		setImage(img);
+	public void display() {
 		repaint();
 		finalProcessing();
 	}
 	
 	public void finalProcessing() {
-		//TODO: Вывод текста в соответствии с настройками
+		//TODO: Вывод дополниельного текста в соответствии с настройками
 	}
 	
 	public Rectangle getPrefferableImageSize() {
@@ -86,17 +84,12 @@ public class Display extends JPanel implements ActionListener{
 	}
 	
 	protected Rectangle getImagePosition(BufferedImage img) {
+		System.out.println(img);
+		System.out.println(rectangle);
 		return new Rectangle(rectangle.width/2-img.getWidth()/2, rectangle.height/2-img.getHeight()/2);
 	}
-	
-	/* TODO: Remove
-	public static void main(String...args) throws IOException{		
-		BufferedImage image = ImageIO.read(new File("c:/DSC02817.jpg"));		
-		Display p= new Display(image);
-		p.repaint();
-	}*/
-	
-	protected final void setImage(BufferedImage image) {
+		
+	public final void setImage(BufferedImage image) {
 		this.image = image;
 	}
 	
