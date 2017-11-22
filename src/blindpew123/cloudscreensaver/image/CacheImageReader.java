@@ -1,6 +1,5 @@
 package blindpew123.cloudscreensaver.image;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,7 +7,7 @@ import java.util.Map;
 
 public class CacheImageReader extends ImageReader {
 
-	private Map<String, BufferedImage> cache = new HashMap<>();
+	private Map<String, ReadyImageCortege> cache = new HashMap<>();
 	
 	CacheImageReader(ImageReader reader) {
 		super(reader);
@@ -16,8 +15,8 @@ public class CacheImageReader extends ImageReader {
 	}
 
 	@Override
-	BufferedImage getImage(String path) {
-		BufferedImage result = cache.get(path); 
+	ReadyImageCortege getImage(String path) {
+		ReadyImageCortege result = cache.get(path); 
 		if (result == null && imageReader != null) {
 			result = imageReader.getImage(path);
 			if (result != null) {

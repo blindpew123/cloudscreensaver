@@ -30,11 +30,10 @@ public class SettingsFile {
 	}	
 
 	public String getSettingsValue(String name) {
-		String result = settings.getProperty(name);
-		return result == null ? "" : result;
+		return (String) settings.getOrDefault(name,"");
 	}
 		
-	public void saveSettings(Properties props) {
+	void saveSettings(Properties props) {
 		File settingsFile = getSettingFile();
 		try (FileOutputStream fileIn = new FileOutputStream(settingsFile)){
 			props.store(fileIn,"Settings Saved");
@@ -43,7 +42,7 @@ public class SettingsFile {
 		}	
 	}
 	
-	private  SettingsFile() {
+	private SettingsFile() {
 		settings = getSettings();
 	}
 	

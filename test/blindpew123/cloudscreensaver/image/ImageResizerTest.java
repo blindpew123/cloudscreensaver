@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -27,13 +26,13 @@ public class ImageResizerTest {
 	@Test
 	public void testSucssesfullyRead() {
 		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC01594.jpg").toAbsolutePath();
-		BufferedImage img = reader.getImage(path.toString());
-		assertThat(img.getWidth(), equalTo(200));
+		ReadyImageCortege img = reader.getImage(path.toString());
+		assertThat(img.getImage().getWidth(), equalTo(200));
 	}
 	
 	@Test
 	public void testUnsucssesfullyRead() {
-		BufferedImage img = reader.getImage("https://cloclo41.datacloudmail.ru/weblink/thumb/xw1/DQEv/h67e4AAF9/DSC05252.jpg");
+		ReadyImageCortege img = reader.getImage("https://cloclo41.datacloudmail.ru/weblink/thumb/xw1/DQEv/h67e4AAF9/DSC05252.jpg");
 		assertNull(img);
 	}
 	
@@ -41,7 +40,7 @@ public class ImageResizerTest {
 	public void testWorkWithNullPreliminaryReader() {
 		Rectangle newSize = new Rectangle(200,100);
 		reader = new ImageResizer(newSize, null);		
-		BufferedImage img = reader.getImage("https://cloclo41.datacloudmail.ru/weblink/thumb/xw1/DQEv/h67e4AAF9/DSC05252.jpg");
+		ReadyImageCortege img = reader.getImage("https://cloclo41.datacloudmail.ru/weblink/thumb/xw1/DQEv/h67e4AAF9/DSC05252.jpg");
 		assertNull(img);
 	}
 

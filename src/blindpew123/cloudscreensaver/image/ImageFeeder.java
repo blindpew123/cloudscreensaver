@@ -21,7 +21,7 @@ public class ImageFeeder {
 	 */
 	private Rectangle prefferableSize;
 	private ImageFileList fileList;
-	private SynchronousQueue<BufferedImage> readyImage = new SynchronousQueue<>();
+	private SynchronousQueue<ReadyImageCortege> readyImage = new SynchronousQueue<>();
 	
 	private class ImageProcessor implements Runnable {
 
@@ -36,7 +36,7 @@ public class ImageFeeder {
 		public void run() {			
 			while(true) {			
 				try{
-					String path = fileList.nextImagePath();	
+					String path = fileList.nextImagePath();
 					readyImage.put(imgReader.getImage(path));
 				} catch (InterruptedException e) {
 					// TODO: RuntimeError - Message For User???
@@ -55,13 +55,14 @@ public class ImageFeeder {
 		new Thread(new ImageProcessor()).start();
 	}
 	
-	public BufferedImage getReadyImageFromQueue() {
+	public ReadyImageCortege getReadyImageFromQueue() {
 		try {
 			return readyImage.take();
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
 	}
+	
 	
 	
 	

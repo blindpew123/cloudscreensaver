@@ -37,12 +37,12 @@ class ImageResizer extends ImageReader{
 	}
 
 	@Override
-	BufferedImage getImage(String path) {
-		BufferedImage result = null;
+	ReadyImageCortege getImage(String path) {
+		ReadyImageCortege result = null;
 		if (imageReader!=null) {
 			result = imageReader.getImage(path);
 			if (result != null) {
-				result = resize(result);				
+				result = new ReadyImageCortege(resize(result.getImage()),result.getInfo());				
 			}
 		}
 		return result;

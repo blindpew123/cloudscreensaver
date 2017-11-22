@@ -3,7 +3,6 @@ package blindpew123.cloudscreensaver.image;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
-import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -22,27 +21,49 @@ public class LocalImageReaderTest {
 	@Test
 	public void testSucssesfullyRead() {
 		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC01594.jpg").toAbsolutePath();
-		BufferedImage img = reader.getImage(path.toString());
-		assertThat(img.getHeight(), equalTo(2552));
+		ReadyImageCortege img = reader.getImage(path.toString());
+		assertThat(img.getImage().getHeight(), equalTo(2552));
 	}
+	
+	@Test
+	public void testSucssesfullyReadTiff() {
+		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC01594.tif").toAbsolutePath();
+		ReadyImageCortege img = reader.getImage(path.toString());
+		assertThat(img.getImage().getHeight(), equalTo(2552));
+	}
+	
+	@Test
+	public void testSucssesfullyReadPng() {
+		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC01594.png").toAbsolutePath();
+		ReadyImageCortege img = reader.getImage(path.toString());
+		assertThat(img.getImage().getHeight(), equalTo(2552));
+	}
+	
 	@Test
 	public void testUnsucssesfullyRead() {
-		BufferedImage img = reader.getImage("https://cloud.mail.ru/public/Cloud%20ScreenSaver%20Test%20Images/DSC05252.jpg");
+		ReadyImageCortege img = reader.getImage("https://cloud.mail.ru/public/Cloud%20ScreenSaver%20Test%20Images/DSC05252.jpg");
 		assertNull(img);
 	}
 	
 	@Test
 	public void testBypassImage() {
 		reader = new LocalImageReader(new HttpImageReader(null));
-		BufferedImage img = reader.getImage("https://cloclo41.datacloudmail.ru/weblink/thumb/xw1/DQEv/h67e4AAF9/DSC05252.jpg");
-		assertThat(img.getHeight(), equalTo(3264));
+		ReadyImageCortege img = reader.getImage("https://cloclo41.datacloudmail.ru/weblink/thumb/xw1/DQEv/h67e4AAF9/DSC05252.jpg");
+		assertThat(img.getImage().getHeight(), equalTo(3264));
 	}
 	
 	@Test
 	public void testBypassNull() {
 		reader = new LocalImageReader(new HttpImageReader(null));
-		BufferedImage img = reader.getImage("https://cloclo41.datacloudmail.ru");
+		ReadyImageCortege img = reader.getImage("https://cloclo41.datacloudmail.ru");
 		assertNull(img);
+	}
+	
+	@Test
+	public void testExifPresent() {
+		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC01594.jpg").toAbsolutePath();
+		ReadyImageCortege img = reader.getImage(path.toString());
+		assertThat(img.getInfo().size(),equalTo(49));
 	}
 	
 }

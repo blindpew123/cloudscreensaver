@@ -1,7 +1,5 @@
 package blindpew123.cloudscreensaver.image;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.concurrent.ThreadLocalRandom;
@@ -25,8 +23,8 @@ public class DefaultImageReader extends ImageReader {
 	}
 
 	@Override
-	BufferedImage getImage(String path) {
-		BufferedImage result = null;
+	ReadyImageCortege getImage(String path) {
+		ReadyImageCortege result = null;
 		try {
 			if (imageReader == null) {
 				return getDefaultImage();
@@ -41,20 +39,22 @@ public class DefaultImageReader extends ImageReader {
 		return result;
 	}
 	
-	private BufferedImage getDefaultImage() throws IOException {
+	private ReadyImageCortege getDefaultImage() throws IOException {
 		int index = ThreadLocalRandom.current().nextInt(4);
-		BufferedImage image = ImageIO.read(Paths.get(defaultImages[index]).toAbsolutePath().toFile());
-		return image;
+		return new ReadyImageCortege(
+				ImageIO.read(Paths.get(defaultImages[index]).toAbsolutePath().toFile()), null);		
 	}
 	
-	private BufferedImage addErrorMessage(BufferedImage image, String path) {
+	private ReadyImageCortege addErrorMessage(ReadyImageCortege image, String path) {
+		// TODO: need implementation Change Info
+		/*
 		Graphics g = image.getGraphics();
 	    g.setFont(g.getFont().deriveFont(30f));
 	    String fullErrorMessage  = SettingsFile.getInstance().getResources("imageErrorMessage")+": "+path;
 	    int width = g.getFontMetrics().stringWidth(fullErrorMessage);
 	    //TODO calculate center horizontal position
 	    g.drawString(fullErrorMessage, 100, 100);
-	    g.dispose();
+	    g.dispose(); */
 		return image;
 	}	
 }

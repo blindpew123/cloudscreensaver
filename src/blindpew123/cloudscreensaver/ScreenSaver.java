@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 
 import blindpew123.cloudscreensaver.image.Display;
 import blindpew123.cloudscreensaver.image.ImageFeeder;
+import blindpew123.cloudscreensaver.image.SimpleDisplay;
 import blindpew123.cloudscreensaver.imagelistreaders.ImageFileListReaders;
 import blindpew123.cloudscreensaver.imagelistreaders.ImageFileListReadersManager;
 import blindpew123.cloudscreensaver.settings.SettingsFile;
@@ -32,7 +33,8 @@ public class ScreenSaver {
 		System.out.println("1. "+startFoldersPathNames); //TODO: Remove
 		
 		//TODO: создание и выбор демонстратора на основе настроек.
-		displayModule = new Display();
+		displayModule = new SimpleDisplay();
+		displayModule.addLabels();
 		feeder = new ImageFeeder(displayModule.getPrefferableImageSize(), ImageFileListReadersManager.getInstance().getFileTrees(startFoldersPathNames.split(";")));
 		initSuccess = true;
 	}
@@ -42,7 +44,8 @@ public class ScreenSaver {
 		// TODO Решить что делать с Interrupted и другими
 		while(initSuccess) {  //working loop until key or mouse event will not exit app. Also app may will close by catch Exception by ImageFeeder class  
 			displayModule.setImage(feeder.getReadyImageFromQueue());
-			displayModule.display();			
+			displayModule.display();
+			Thread.sleep(4000); //Таймаут
 		}
 		
 	}

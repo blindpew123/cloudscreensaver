@@ -13,18 +13,17 @@ import java.io.IOException;
  * TODO: Реализовать СлайдШоу в отдельном классе 
  * */
 
-
-
 @SuppressWarnings("serial")
-public class Display extends JPanel implements ActionListener{
+public abstract class Display extends JPanel implements ActionListener{
 	
-	private JFrame frame = new JFrame("FullScreen");
+	private JFrame frame = new JFrame();
 	private Rectangle rectangle; // try to get size
 	private Color color=Color.BLACK;
 	private KeyListener keyHandler;
 	private MouseListener mouseHandler;
 	private BufferedImage image;
-	private ImageFeeder feeder;
+	int  ttt = 0;
+	JLabel label1;
 	
 	private class KeyHandler extends KeyAdapter {
 		@Override
@@ -38,9 +37,9 @@ public class Display extends JPanel implements ActionListener{
 		public void mouseMoved(MouseEvent e) {
 			System.exit(0);
 		}
-	}
-	
+	}	
 	public Display() {
+		//TODO: make it better;
 		setKeyHandler(new KeyHandler());
 		setMouseHandler(new MouseHandler());
 		
@@ -50,34 +49,38 @@ public class Display extends JPanel implements ActionListener{
 		frame.setSize(rectangle.width, rectangle.height);	    
 	    frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	    setBackground(color);
-	    frame.add(this);
-		frame.setVisible(true);
+	    frame.add(this);    
+		frame.setVisible(true);		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 	
-	public final void paintComponent (Graphics g) {
+	public final void paintComponent (Graphics g) {	
 		super.paintComponent(g);
 		paintImage(g,image);
 	}
 	
-	public void paintImage(Graphics g, BufferedImage img) {
-		if(img == null) return;
-		g.drawImage(img, getImagePosition(img).width, getImagePosition(img).height, null);
+	public abstract void paintImage(Graphics g, BufferedImage img);
+	
+	public abstract void display();
+	
+	public void addLabels() {
+		label1 = new JLabel("Test");
+		label1.setBounds(20, 20, 60, 70);
+	    label1.setForeground(color.WHITE);
+	    setLayout(null);
+		add(label1);		
+		JLabel label2 = new JLabel("Test");
+		label2.setAlignmentY(RIGHT_ALIGNMENT);
+		label2.setBounds(21, 21, 60, 70);
+		label2.setForeground(color.GRAY);		    
+		add(label2);
 	}
 	
-	public void display() {
-		repaint();
-		finalProcessing();
-	}
 	
-	public void finalProcessing() {
-		//TODO: Вывод дополниельного текста в соответствии с настройками
-	}
 	
 	public Rectangle getPrefferableImageSize() {
 		return rectangle;
@@ -89,8 +92,8 @@ public class Display extends JPanel implements ActionListener{
 		return new Rectangle(rectangle.width/2-img.getWidth()/2, rectangle.height/2-img.getHeight()/2);
 	}
 		
-	public final void setImage(BufferedImage image) {
-		this.image = image;
+	public final void setImage(ReadyImageCortege image) {
+		this.image = image.getImage();
 	}
 	
 	protected final void setKeyHandler(KeyListener keyHandler) {

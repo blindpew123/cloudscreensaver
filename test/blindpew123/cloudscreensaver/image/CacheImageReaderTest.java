@@ -30,14 +30,14 @@ public class CacheImageReaderTest {
 	public void testReturnsNull() {
 		reader = new CacheImageReader(null);
 		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC01594.jpg").toAbsolutePath();
-		BufferedImage img = reader.getImage(path.toString());				
+		ReadyImageCortege img = reader.getImage(path.toString());				
 		assertNull(img);		
 	}
 	
 	@Test
 	public void testNullImageFromPrelimiaryReadersNotGoToCacheAndCurrentReaderBypassNull() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
 		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC.jpg").toAbsolutePath();
-		BufferedImage img = reader.getImage(path.toString());		
+		ReadyImageCortege img = reader.getImage(path.toString());		
 		Field f = reader.getClass().getDeclaredField("cache");
 		f.setAccessible(true);
 		@SuppressWarnings("unchecked")
@@ -50,19 +50,19 @@ public class CacheImageReaderTest {
 	@Test
 	public void testGetImageFromPrelimiaryReadersAndPutToCache() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
 		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC01594.jpg").toAbsolutePath();
-		BufferedImage img = reader.getImage(path.toString());		
+		ReadyImageCortege img = reader.getImage(path.toString());		
 		Field f = reader.getClass().getDeclaredField("cache");
 		f.setAccessible(true);
 		@SuppressWarnings("unchecked")
 		Map<String, BufferedImage> cache = (Map<String, BufferedImage>) f.get(reader);		
-		assertThat(img.getWidth(), equalTo(200));
+		assertThat(img.getImage().getWidth(), equalTo(200));
 		assertTrue(cache.containsKey(path.toString()));
 	}
 	
 	@Test
 	public void testCahedImageWillBeUsed() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC01594.jpg").toAbsolutePath();
-		BufferedImage img = reader.getImage(path.toString());		
+		ReadyImageCortege img = reader.getImage(path.toString());		
 		Field f = reader.getClass().getDeclaredField("cache");
 		f.setAccessible(true);
 		@SuppressWarnings("unchecked")
@@ -70,6 +70,6 @@ public class CacheImageReaderTest {
 		reader = new CacheImageReader(null);
 		f.set(reader, cache);
 		img = reader.getImage(path.toString());
-		assertThat(img.getWidth(), equalTo(200));		
+		assertThat(img.getImage().getWidth(), equalTo(200));		
 	}
 }

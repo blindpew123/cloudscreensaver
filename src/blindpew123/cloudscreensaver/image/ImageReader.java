@@ -7,7 +7,7 @@ package blindpew123.cloudscreensaver.image;
 
 import java.awt.image.BufferedImage;
 
-public abstract class ImageReader {
+public abstract class ImageReader {	
 	
 	ImageReader imageReader; 	
 	
@@ -15,5 +15,5 @@ public abstract class ImageReader {
 		imageReader  = reader;
 	}
 	
-	abstract BufferedImage getImage(String path);
+	abstract ReadyImageCortege getImage(String path);
 }

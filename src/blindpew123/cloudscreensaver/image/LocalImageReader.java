@@ -2,10 +2,11 @@ package blindpew123.cloudscreensaver.image;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 
 import javax.imageio.ImageIO;
 
-public class LocalImageReader extends ImageReader {
+public class LocalImageReader extends ImageReader implements MetaReader {
 
 	LocalImageReader(ImageReader reader) {
 		super(reader);
@@ -13,15 +14,18 @@ public class LocalImageReader extends ImageReader {
 	}
 	
 	@Override
-	BufferedImage getImage(String path) {
-		BufferedImage result = null;
+	ReadyImageCortege getImage(String path) {
+		ReadyImageCortege result = null;
 		if (imageReader!=null) {
 			result = imageReader.getImage(path);
 			if (result != null) return result;
 		}		
 		try {
-			result = ImageIO.read(new File(path));
-		} catch(Exception e) { } 
+			BufferedImage image = ImageIO.read(new File(path));
+			if (image != null) {
+				result = new ReadyImageCortege(image, readExif(new FileInputStream(new File(path))));
+			}
+		} catch(Exception e) {} 
 		return result;
 	}
 }
