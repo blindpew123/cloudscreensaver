@@ -10,3 +10,6 @@
 /PageParser.class
 /QuotesParser.class
 /WordParser.class
+/CloudMailRuSecondStageTagParser.class
+/CloudMailRuSecondStagePageParser.class
+/CloudMailRuSecondStagePageParserTest.class
