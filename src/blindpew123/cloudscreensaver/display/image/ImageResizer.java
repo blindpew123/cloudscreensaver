@@ -1,4 +1,4 @@
-package blindpew123.cloudscreensaver.image;
+package blindpew123.cloudscreensaver.display.image;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -31,8 +31,6 @@ class ImageResizer extends ImageReader{
 			double scale = (double)result.width/img.getWidth();
 			result.height = (int)(img.getHeight()*scale);
 		}
-		System.out.println(img.getWidth()+ " "+img.getHeight()); //TODO: Remove
-		System.out.println(result.width+ " "+result.height); // TODO: Remove
 		return result;
 	}
 

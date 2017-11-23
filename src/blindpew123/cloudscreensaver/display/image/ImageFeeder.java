@@ -1,8 +1,6 @@
-package blindpew123.cloudscreensaver.image;
+package blindpew123.cloudscreensaver.display.image;
 
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.util.Properties;
 import java.util.concurrent.*;
 
 import blindpew123.cloudscreensaver.imagelistreaders.ImageFileList;

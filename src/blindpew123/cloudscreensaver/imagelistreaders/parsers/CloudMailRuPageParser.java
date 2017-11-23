@@ -16,7 +16,7 @@ public class CloudMailRuPageParser extends PageParser {
 
 	@Override
 	protected WordParser initWordParser() {
-		return new CloudMailRuTagParser(this);
+		return new CloudMailReady(this);// CloudMailRuTagParser(this);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class CloudMailRuPageParser extends PageParser {
 		Map<String, Boolean> map = getFileMap();
 		Iterator<Map.Entry<String, Boolean>> it = map.entrySet().iterator();
 		while(it.hasNext()) {
-			String path = it.next().getKey();
+			String path = it.next().getKey();			
 			if(map.get(path) && isTopLevel(path)) {
 				it.remove();
 			}

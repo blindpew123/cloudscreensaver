@@ -2,6 +2,7 @@ package blindpew123.cloudscreensaver.imagelistreaders;
 
 import static org.junit.Assert.*;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -17,10 +18,10 @@ import org.junit.*;
 public class CloudMailRuImageFileListReaderTest {
 
 	CloudMailRuImageFileListReader reader;
-	//https://cloud.mail.ru/public/Cw2G/Vkvwnmq9p
+	
 	@Before
 	public void init() {
-		reader = new CloudMailRuImageFileListReader(ImageFileListReader.CLOUD_MAIL_RU_PREFIX, "Cw2G/Vkvwnmq9p");//);  "DQEv/h67e4AAF9"
+		reader = new CloudMailRuImageFileListReader(ImageFileListReader.CLOUD_MAIL_RU_PREFIX, "DQEv/h67e4AAF9");
 	}
 	
 	@Test
@@ -47,14 +48,14 @@ public class CloudMailRuImageFileListReaderTest {
 	@Test(expected = RuntimeException.class)
 	public void testWrongPrefix() {
 		reader = new CloudMailRuImageFileListReader("", "DQEv/h67e4AAF9");
-		reader.readList().getImagesList();
+		List<String> urlList = reader.readList().getImagesList();
 		fail();		
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void testNullPrefix() {
 		reader = new CloudMailRuImageFileListReader(null, "DQEv/h67e4AAF9");
-		reader.readList().getImagesList();
+		List<String> urlList = reader.readList().getImagesList();
 		fail();		
 	}
 

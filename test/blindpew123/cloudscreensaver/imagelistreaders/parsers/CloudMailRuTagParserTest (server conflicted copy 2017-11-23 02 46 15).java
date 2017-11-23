@@ -52,7 +52,7 @@ public class CloudMailRuTagParserTest {
 	@Test
 	public void testCheckIgnoreNull(){
 		String[] words = new String[]{"oak","weblink","linkname","type","folder","file"};
-		for(@SuppressWarnings("unused") String word : words) {
+		for(String word:words) {
 			testParser.process(null);
 		}
 		assertThat(pageParser.getFileMap().size(),equalTo(0));

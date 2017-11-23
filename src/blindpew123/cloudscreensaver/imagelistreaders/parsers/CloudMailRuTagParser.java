@@ -2,6 +2,8 @@ package blindpew123.cloudscreensaver.imagelistreaders.parsers;
 
 public class CloudMailRuTagParser extends WordParser {
 	
+	
+		
 	TagsState currentState = TagsState.READY;
 	
 	private enum TagsState {
@@ -9,6 +11,7 @@ public class CloudMailRuTagParser extends WordParser {
 			void processTag(String value) {
 				if (value.equals("tree")) {
 					localcontext.currentState = TagsState.TAG;
+		//			System.out.println(Thread.currentThread().getName()+" "+link + " From ready to Tag");
 				}				
 			}		
 		},
@@ -16,9 +19,11 @@ public class CloudMailRuTagParser extends WordParser {
 		void processTag(String value) {
 				if (value.equals("weblink")) {
 					localcontext.currentState = TagsState.WEBLINK;
+			//		System.out.println(Thread.currentThread().getName()+" "+value + "to Weblink");
 				}
 				if (value.equals("type")) {
 					localcontext.currentState = TagsState.TYPE;
+			//		System.out.println(Thread.currentThread().getName()+" "+value + "to Type");
 				}				
 			}
 		},
@@ -26,15 +31,18 @@ public class CloudMailRuTagParser extends WordParser {
 			void processTag(String value) {
 				link = value;
 				localcontext.currentState = TagsState.TAG;
+			//	System.out.println(Thread.currentThread().getName()+" "+value + "From Weblink to Tag");
 			}
 		},
 		TYPE {
 			void processTag(String value) {
 				if (value.equals("folder")||value.equals("file")) {
-					if (link == null) throw new IllegalArgumentException("Can't work with null link");
-					localcontext.getContext().getFileMap().put(link, value.equals("folder"));
-					link = null;
+					if (link != null) {
+						localcontext.getContext().getFileMap().put(link, value.equals("folder"));
+						link = null;
+					}
 				}
+			//	System.out.println(Thread.currentThread().getName()+" "+value + "From Type to Tag");
 				localcontext.currentState = TagsState.TAG;
 			}
 		};		

@@ -1,10 +1,11 @@
-package blindpew123.cloudscreensaver.image;
+package blindpew123.cloudscreensaver.display.image;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import blindpew123.cloudscreensaver.display.image.ImageFeeder;
 import blindpew123.cloudscreensaver.imagelistreaders.ImageFileList;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

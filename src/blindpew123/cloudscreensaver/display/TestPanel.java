@@ -1,4 +1,4 @@
-package blindpew123.cloudscreensaver.image;
+package blindpew123.cloudscreensaver.display;
 
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -6,12 +6,14 @@ import javax.swing.JTextField;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.CardLayout;
 import javax.swing.SwingConstants;
 import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.JLabel;
+import java.awt.Font;
 
 public class TestPanel extends JPanel {
 
@@ -31,9 +33,10 @@ public class TestPanel extends JPanel {
 	               "<p \"style='color:red'\">это наш текст <br>" +
 	               "вот ещё одна строка<br>" +
 	               "Жизнь прекрасна))<br></html>");
+		lblNewLabel.setFont(new Font("Tekton Pro", Font.PLAIN, 12));
 		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel.setBounds(76, 201, 364, 88);
+		lblNewLabel.setBounds(new Rectangle());
 		add(lblNewLabel);
 
 	}

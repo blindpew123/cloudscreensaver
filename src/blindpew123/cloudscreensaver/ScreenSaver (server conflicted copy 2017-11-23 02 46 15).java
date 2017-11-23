@@ -9,8 +9,8 @@ package blindpew123.cloudscreensaver;
 import java.awt.image.BufferedImage;
 
 import blindpew123.cloudscreensaver.display.Display;
+import blindpew123.cloudscreensaver.display.ImageFeeder;
 import blindpew123.cloudscreensaver.display.SimpleDisplay;
-import blindpew123.cloudscreensaver.display.image.ImageFeeder;
 import blindpew123.cloudscreensaver.imagelistreaders.ImageFileListReaders;
 import blindpew123.cloudscreensaver.imagelistreaders.ImageFileListReadersManager;
 import blindpew123.cloudscreensaver.settings.SettingsFile;
@@ -30,6 +30,7 @@ public class ScreenSaver {
 			System.out.println("TODO: переделать на диалог об ошибке. Не указан путь");
 			return;
 		}
+		System.out.println("1. "+startFoldersPathNames); //TODO: Remove
 		
 		//TODO: создание и выбор демонстратора на основе настроек.
 		displayModule = new SimpleDisplay();		

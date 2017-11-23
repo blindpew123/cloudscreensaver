@@ -1,7 +1,8 @@
-package blindpew123.cloudscreensaver.image;
+package blindpew123.cloudscreensaver.display.image;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Properties;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.imageio.ImageIO;
@@ -27,11 +28,11 @@ public class DefaultImageReader extends ImageReader {
 		ReadyImageCortege result = null;
 		try {
 			if (imageReader == null) {
-				return getDefaultImage();
+				return getDefaultImage(false, path);
 			}	
 			result = imageReader.getImage(path);
 			if (result == null) {
-				result = addErrorMessage(getDefaultImage(), path);
+				result = getDefaultImage(true, path);
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -39,22 +40,13 @@ public class DefaultImageReader extends ImageReader {
 		return result;
 	}
 	
-	private ReadyImageCortege getDefaultImage() throws IOException {
+	private ReadyImageCortege getDefaultImage(boolean hasError, String path) throws IOException {
 		int index = ThreadLocalRandom.current().nextInt(4);
+		Properties map = new Properties();
+		map.put("path", hasError ? SettingsFile.getInstance().getResources("imageErrorMessage")+" "+path : "");
 		return new ReadyImageCortege(
-				ImageIO.read(Paths.get(defaultImages[index]).toAbsolutePath().toFile()), null);		
+				ImageIO.read(Paths.get(defaultImages[index]).toAbsolutePath().toFile()), map);		
 	}
 	
-	private ReadyImageCortege addErrorMessage(ReadyImageCortege image, String path) {
-		// TODO: need implementation Change Info
-		/*
-		Graphics g = image.getGraphics();
-	    g.setFont(g.getFont().deriveFont(30f));
-	    String fullErrorMessage  = SettingsFile.getInstance().getResources("imageErrorMessage")+": "+path;
-	    int width = g.getFontMetrics().stringWidth(fullErrorMessage);
-	    //TODO calculate center horizontal position
-	    g.drawString(fullErrorMessage, 100, 100);
-	    g.dispose(); */
-		return image;
-	}	
+	
 }

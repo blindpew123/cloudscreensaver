@@ -1,4 +1,4 @@
-package blindpew123.cloudscreensaver.image;
+package blindpew123.cloudscreensaver.display.image;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
@@ -12,6 +12,12 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import blindpew123.cloudscreensaver.display.image.CacheImageReader;
+import blindpew123.cloudscreensaver.display.image.ImageReader;
+import blindpew123.cloudscreensaver.display.image.ImageResizer;
+import blindpew123.cloudscreensaver.display.image.LocalImageReader;
+import blindpew123.cloudscreensaver.display.image.ReadyImageCortege;
 
 public class CacheImageReaderTest {
 

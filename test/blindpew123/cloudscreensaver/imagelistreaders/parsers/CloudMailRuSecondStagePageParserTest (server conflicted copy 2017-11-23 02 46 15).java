@@ -36,7 +36,7 @@ public class CloudMailRuSecondStagePageParserTest {
 	@Test(expected = MalformedURLException.class)
 	public void testWrongURLException() throws MalformedURLException, InterruptedException {
 		parser = new CloudMailRuSecondStagePageParser("","");
-		parser.processPage();
+		Map<?,?> testMap = parser.processPage();
 		fail();
 	}
 	

@@ -1,8 +1,7 @@
-package blindpew123.cloudscreensaver.image;
+package blindpew123.cloudscreensaver.display.image;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -24,7 +23,7 @@ public class HttpImageReader extends ImageReader implements MetaReader {
 		try {			
 			BufferedImage image = ImageIO.read(new URL(path));
 			if (image!=null) {
-				result = new ReadyImageCortege(image, readExif(new URL(path).openStream()));
+				result = createCortege(image, readExif(new URL(path).openStream()), path);
 			}
 		} catch (Exception e) {} //Swallow, chained readers try to get that image or default with error message will be used.
 		return result; 

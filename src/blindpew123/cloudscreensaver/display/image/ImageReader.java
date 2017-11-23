@@ -1,11 +1,14 @@
-package blindpew123.cloudscreensaver.image;
+package blindpew123.cloudscreensaver.display.image;
+
+import java.awt.image.BufferedImage;
+import java.util.Properties;
+
 /*
  * Этот интерфейс обеспечивает чтение файла по опрееленному пути
  * Если не может получть файл передает следующему по цепочке ридеру. Последний в списке ридер подает одно из дефолтных изображений
  * с выведенным поверх сообщение об ошибке
  */
 
-import java.awt.image.BufferedImage;
 
 public abstract class ImageReader {	
 	
@@ -16,4 +19,12 @@ public abstract class ImageReader {
 	}
 	
 	abstract ReadyImageCortege getImage(String path);
+	
+	ReadyImageCortege createCortege(BufferedImage image, Properties map, String path) {
+		Properties mapForCortege = map == null? new Properties() : map;
+		mapForCortege.put("path", path);
+		return new ReadyImageCortege(image, mapForCortege);
+	}
+	
+	
 }

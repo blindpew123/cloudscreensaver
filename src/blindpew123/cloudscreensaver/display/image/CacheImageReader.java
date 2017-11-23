@@ -1,4 +1,4 @@
-package blindpew123.cloudscreensaver.image;
+package blindpew123.cloudscreensaver.display.image;
 
 import java.util.HashMap;
 import java.util.Map;

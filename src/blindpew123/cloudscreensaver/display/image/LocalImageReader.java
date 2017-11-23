@@ -1,4 +1,4 @@
-package blindpew123.cloudscreensaver.image;
+package blindpew123.cloudscreensaver.display.image;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -23,7 +23,7 @@ public class LocalImageReader extends ImageReader implements MetaReader {
 		try {
 			BufferedImage image = ImageIO.read(new File(path));
 			if (image != null) {
-				result = new ReadyImageCortege(image, readExif(new FileInputStream(new File(path))));
+				result = createCortege(image, readExif(new FileInputStream(new File(path))), path);
 			}
 		} catch(Exception e) {} 
 		return result;

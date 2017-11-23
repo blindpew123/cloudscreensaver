@@ -1,4 +1,4 @@
-package blindpew123.cloudscreensaver.image;
+package blindpew123.cloudscreensaver.Display;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
@@ -9,6 +9,11 @@ import java.nio.file.Paths;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import blindpew123.cloudscreensaver.Display.ImageReader;
+import blindpew123.cloudscreensaver.Display.ImageResizer;
+import blindpew123.cloudscreensaver.Display.LocalImageReader;
+import blindpew123.cloudscreensaver.Display.ReadyImageCortege;
 
 //TODO: Add tests for vertical oriented image and image with size less than screen
 

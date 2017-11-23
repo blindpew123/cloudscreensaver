@@ -14,6 +14,9 @@ public abstract class PageParser {
 	private CharParser charParser;
 	private WordParser wordParser;
 	
+	private Deque<Character> CharParseDeque = new LinkedList<>();
+	private Deque<String> WordParseDeque = new LinkedList<>();
+	
 	private char[] buffer;	
 	
 	private class PageStreamReader implements Runnable {
@@ -38,6 +41,7 @@ public abstract class PageParser {
 				}
 				dataLength.put(0);
 			} catch (IOException | InterruptedException e) {
+				System.out.println("Error: "+ url);
 				throw new RuntimeException(e);
 			}			
 		}
@@ -99,10 +103,34 @@ public abstract class PageParser {
 		return charParser;
 	}
 	
+	protected void setCharParser(CharParser chParser) {
+		charParser = chParser;
+	}
+	
 	protected WordParser getStringParser() {
 		return wordParser;
 	}
 	
+	protected void setStringParser(WordParser wParser) {
+		wordParser = wParser;
+	}
+	
+	protected Character getFromCharParseDeque() {
+		return CharParseDeque.poll();
+	}
+
+	protected void putToCharParseDeque(Character charParseDeque) {
+		CharParseDeque.push(charParseDeque);
+	}
+	
+	protected String getFromWordParseDeque() {
+		return WordParseDeque.poll();
+	}
+
+	protected void putToWordParseDeque(String wordParseDeque) {
+		WordParseDeque.push(wordParseDeque);
+	}
+
 	private URL getUrl() throws MalformedURLException {
 		return new URL(getBasePath() + getCurrentLevelPath());
 	}
@@ -110,6 +138,8 @@ public abstract class PageParser {
 	private void setBuffer(char[] buffer) {
 		this.buffer  =  buffer; 
 	}
+
+	
 
 	
 }

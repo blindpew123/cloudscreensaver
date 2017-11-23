@@ -1,9 +1,14 @@
-package blindpew123.cloudscreensaver.image;
+package blindpew123.cloudscreensaver.display.image;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import blindpew123.cloudscreensaver.display.image.DefaultImageReader;
+import blindpew123.cloudscreensaver.display.image.HttpImageReader;
+import blindpew123.cloudscreensaver.display.image.ImageReader;
+import blindpew123.cloudscreensaver.display.image.ReadyImageCortege;
 
 public class DefaultImageReaderTest {
 		

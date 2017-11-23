@@ -1,9 +1,12 @@
-package blindpew123.cloudscreensaver.image;
+package blindpew123.cloudscreensaver.display;
 
 import java.awt.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import blindpew123.cloudscreensaver.display.image.ReadyImageCortege;
+
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,9 +24,10 @@ public abstract class Display extends JPanel implements ActionListener{
 	private Color color=Color.BLACK;
 	private KeyListener keyHandler;
 	private MouseListener mouseHandler;
-	private BufferedImage image;
+	private ReadyImageCortege imageCortege;
+	private boolean readyToShow = false;
 	int  ttt = 0;
-	JLabel label1;
+	
 	
 	private class KeyHandler extends KeyAdapter {
 		@Override
@@ -39,6 +43,7 @@ public abstract class Display extends JPanel implements ActionListener{
 		}
 	}	
 	public Display() {
+		super(null);
 		//TODO: make it better;
 		setKeyHandler(new KeyHandler());
 		setMouseHandler(new MouseHandler());
@@ -55,52 +60,48 @@ public abstract class Display extends JPanel implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub		
+		System.exit(0);		//TODO: What's happened here?
 	}
 	
 	public final void paintComponent (Graphics g) {	
 		super.paintComponent(g);
-		paintImage(g,image);
+		if(readyToShow) paintImage(g,getImageCortege().getImage());
 	}
 	
 	public abstract void paintImage(Graphics g, BufferedImage img);
 	
-	public abstract void display();
-	
-	public void addLabels() {
-		label1 = new JLabel("Test");
-		label1.setBounds(20, 20, 60, 70);
-	    label1.setForeground(color.WHITE);
-	    setLayout(null);
-		add(label1);		
-		JLabel label2 = new JLabel("Test");
-		label2.setAlignmentY(RIGHT_ALIGNMENT);
-		label2.setBounds(21, 21, 60, 70);
-		label2.setForeground(color.GRAY);		    
-		add(label2);
-	}
-	
+	public abstract void display();	
 	
 	
 	public Rectangle getPrefferableImageSize() {
 		return rectangle;
 	}
 	
-	protected Rectangle getImagePosition(BufferedImage img) {
-		System.out.println(img);
-		System.out.println(rectangle);
+	Rectangle getImagePosition(BufferedImage img) {
 		return new Rectangle(rectangle.width/2-img.getWidth()/2, rectangle.height/2-img.getHeight()/2);
 	}
 		
 	public final void setImage(ReadyImageCortege image) {
-		this.image = image.getImage();
+		this.imageCortege = image;
+		readyToShow = true;
 	}
 	
-	protected final void setKeyHandler(KeyListener keyHandler) {
+	public final void setKeyHandler(KeyListener keyHandler) {
 		frame.addKeyListener(keyHandler);		
 	}
 	
-	protected final void setMouseHandler(MouseListener mouseHandler) {
+	public final void setMouseHandler(MouseListener mouseHandler) {
 		frame.addMouseListener(mouseHandler); 
 	}
+	
+	protected ReadyImageCortege getImageCortege() {
+		return imageCortege;
+	}
+	
+	protected Rectangle getScreenSize() {
+		return rectangle;
+	}
+	
+
+	
 }
