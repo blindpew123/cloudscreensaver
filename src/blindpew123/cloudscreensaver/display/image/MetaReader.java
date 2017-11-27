@@ -33,5 +33,5 @@ interface MetaReader {
 	        }
 	     }
 		return info;
-	}
+	}	
 }

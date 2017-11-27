@@ -17,3 +17,10 @@
 /CloudMailTag.class
 /CloudMailWebLink.class
 /CloudMailType.class
+/CloudMailRuGoJson.class
+/QuotesAndBraketsParser.class
+/BracketParser.class
+/CurlyBracketParser.class
+/CloudMailRuGo.class
+/BracketParserTest.class
+/CloudMailStop.class

@@ -58,11 +58,12 @@ public class SimpleDisplay extends Display {
 	
 	void setFileNameText(ShadowFormattedTextBlock block, Properties imgProperties) {
 		block.setText(imgProperties.getProperty("Date/Time Original","")+" "
-				+ removeCloudMailUnnecessaryInfo(imgProperties.getProperty("path","")));
+		//		+ removeCloudMailUnnecessaryInfo(imgProperties.getProperty("path","")));
+				+ imgProperties.getProperty("path",""));		
 	}
 	
 	/** I don't like long recondite links provided Cloud.Mail.ru.
-	 *  This is sample: https://cloclo44.datacloudmail.ru/weblink/thumb/xw1/DQEv/h67e4AAF9/More/DSC05416.jpg
+	 *  This is sample: https://cloclo5.cldmail.ru/QZWMepdZ2AJTvYHHJUV/G/DQEv/h67e4AAF9/DSC05160.jpg?key=b37e69e9353792c7787643818335c36548b3b94d
 	 *  I want to leave only host and that part, which starts from folder's name
 	 * @param string - path to check and remove if it needed
 	 * @return processed path
@@ -71,10 +72,10 @@ public class SimpleDisplay extends Display {
 		if(!string.contains("mail.ru")) return string;
 		
 		int counter = 0;
-		String[] parts = string.split("/");
-		StringBuilder result = new StringBuilder();
+		String[] parts = string.split("?")[0].split("/");
+		StringBuilder result = new StringBuilder("https://cloud.mail.ru...");
 		for(String part : parts) {
-			if(7 < parts.length &&  1 < counter && counter > 6) result.append(part);
+			if(7 < parts.length &&  counter > 6) result.append(part);
 			if(counter == 0) result.append("//");
 			if(counter < parts.length-1) result.append("/");
 			

@@ -9,9 +9,8 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
-import javax.imageio.ImageIO;
+import blindpew123.cloudscreensaver.settings.SettingsFile;
 
 class LocalFileSystemImageFileListReader extends ImageFileListReader{
 	
@@ -21,12 +20,13 @@ class LocalFileSystemImageFileListReader extends ImageFileListReader{
 		startPath = path;
 	}
 	
+	public LocalFileSystemImageFileListReader(String path, ImageFileList imageList) {
+		super(imageList);
+		startPath = path;
+	}
+	
 	@Override
-	public ImageFileList readList() {
-		
-		String names[] = ImageIO.getReaderFormatNames();
-		
-		
+	public ImageFileList readList() {		
 		List<String> result = new ArrayList<String>();
 		
 		if(startPath != null) {		
@@ -52,6 +52,45 @@ class LocalFileSystemImageFileListReader extends ImageFileListReader{
 			}
 		}
 		return new ImageFileList(result);
+	}
+
+	@Override
+	public void readListTo() {			
+		
+		// List<String> result = new ArrayList<String>();
+		
+		if(startPath != null) {
+			
+			List<String> result = new ArrayList<>();
+			
+			try {
+				Files.walkFileTree(Paths.get(startPath), new SimpleFileVisitor<Path>() {
+		            @Override
+		            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+		
+		                String fileName = file.toString();
+		            	if (isFormatSupported(fileName)) {
+		                	result.add(fileName);
+		                	if (!isMinRecordsCopied && result.size() >= (int)SettingsFile.getInstance().getSettingsValue("minNumPathsForQuickstart")) {
+		                		imageList.getImagesList().addAll(result);
+		                		result.clear();
+		                		isMinRecordsCopied = true;
+		                	}
+		                }
+		                return FileVisitResult.CONTINUE;
+		            }
+		
+		            @Override
+		            public FileVisitResult visitFileFailed(Path file, IOException exp) {
+		                return FileVisitResult.CONTINUE;
+		            }
+		        });
+			}catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			imageList.getImagesList().addAll(result);	
+		}
+		
 	}
 	
 

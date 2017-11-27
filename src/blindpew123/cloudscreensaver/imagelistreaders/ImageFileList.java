@@ -1,6 +1,7 @@
 package blindpew123.cloudscreensaver.imagelistreaders;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 // TODO Random Element getter
@@ -11,11 +12,11 @@ public class ImageFileList {
 	private List<String> imagesList;
 
 	ImageFileList(){
-		imagesList = new ArrayList<>();
+		imagesList = new CopyOnWriteArrayList<>();
 	}
 	
 	ImageFileList(Collection<String> imagesList){
-		this.imagesList = new ArrayList<>(imagesList);
+		this.imagesList = new CopyOnWriteArrayList<>(imagesList);
 	}
 	
 	public List<String> getImagesList() {

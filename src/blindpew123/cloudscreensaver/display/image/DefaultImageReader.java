@@ -44,6 +44,7 @@ public class DefaultImageReader extends ImageReader {
 		int index = ThreadLocalRandom.current().nextInt(4);
 		Properties map = new Properties();
 		map.put("path", hasError ? SettingsFile.getInstance().getResources("imageErrorMessage")+" "+path : "");
+		if(hasError) System.out.println(path);
 		return new ReadyImageCortege(
 				ImageIO.read(Paths.get(defaultImages[index]).toAbsolutePath().toFile()), map);		
 	}

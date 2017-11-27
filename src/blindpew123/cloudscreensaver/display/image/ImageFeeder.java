@@ -13,7 +13,7 @@ import blindpew123.cloudscreensaver.imagelistreaders.ImageFileList;
  */
 public class ImageFeeder {
 
-	/* Настройки размер изображения. Они раситываются на основе того какой способ показа изображения используется
+	/* Настройки размер изображения. Они расчитываются на основе того какой способ показа изображения используется
 	 * способы перехода и текущий размер экрана
 	 * 
 	 */
@@ -27,8 +27,9 @@ public class ImageFeeder {
 				new ImageResizer(						
 				prefferableSize, new DefaultImageReader(
 				new HttpImageReader(
-				new LocalImageReader(null
-				)))));
+				new LocalImageReader(
+				new CMRHttpImageReader(
+				null))))));
 		
 		@Override
 		public void run() {			
@@ -50,7 +51,8 @@ public class ImageFeeder {
 	}
 	
 	public void startFeed() {
-		new Thread(new ImageProcessor()).start();
+		ExecutorService es = Executors.newSingleThreadExecutor();
+		es.execute(new ImageProcessor());		
 	}
 	
 	public ReadyImageCortege getReadyImageFromQueue() {

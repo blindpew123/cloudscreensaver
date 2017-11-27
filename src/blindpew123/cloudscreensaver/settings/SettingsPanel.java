@@ -59,8 +59,8 @@ public class SettingsPanel extends JPanel {
 		
 		textField = new JTextField();
 		textField.setColumns(50);
-		textField.setText(settingsFile.getSettingsValue("pathsValues")); 
-		textField.setToolTipText(settingsFile.getSettingsValue("textFilesPathsTooltip")); 
+		textField.setText(settingsFile.getSettingsStringValue("pathsValues")); 
+		textField.setToolTipText(settingsFile.getSettingsStringValue("textFilesPathsTooltip")); 
 		pathFieldPanel.add(textField); 
 		
 		GridBagConstraints gbc_pathFieldPanel = new GridBagConstraints();
@@ -149,11 +149,11 @@ public class SettingsPanel extends JPanel {
 		});
 		add(btnCancel, gbc_btnCancel);	
 	}
-	@SuppressWarnings("deprecation")
+
 	private void saveSettings() {
 		Properties properties = new Properties();
-		properties.setProperty("showFileNamesValue", new Boolean(chckbxShowFilenames.isSelected()).toString());
-		properties.setProperty("showExifValue", new Boolean(chckbxShowExif.isSelected()).toString());
+		properties.setProperty("showFileNamesValue", Boolean.toString(chckbxShowFilenames.isSelected()));
+		properties.setProperty("showExifValue",Boolean.toString(chckbxShowExif.isSelected()));
 		properties.setProperty("pathsValues", textField.getText());
 		settingsFile.saveSettings(properties);
 	}

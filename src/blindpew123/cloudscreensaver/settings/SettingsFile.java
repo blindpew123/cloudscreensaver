@@ -9,9 +9,9 @@ import java.util.ResourceBundle;
 
 public class SettingsFile {
 
-	private final String SETTINGS_FILENAME = "cloudscreensaver20.settings";
-	private final String SETTINGS_FOLDERNAME = "cloudscreensaver20";
-	private final String LOCALE_PROPERTIES_FILENAME = "blindpew123.cloudscreensaver.resources.CloudScreenSaver";
+	private static final String SETTINGS_FILENAME = "cloudscreensaver20.settings";
+	private static final String APP_DIRECTORYNAME = "cloudscreensaver20";
+	private static final String LOCALE_PROPERTIES_FILENAME = "blindpew123.cloudscreensaver.resources.CloudScreenSaver";
 	
 	private ResourceBundle resources = ResourceBundle.getBundle(LOCALE_PROPERTIES_FILENAME);
 	private Properties settings;
@@ -29,21 +29,38 @@ public class SettingsFile {
 		return (String) resources.getObject(name);
 	}	
 
-	public String getSettingsValue(String name) {
+	public synchronized String getSettingsStringValue(String name) {
 		return (String) settings.getOrDefault(name,"");
 	}
+	
+	public synchronized Object getSettingsValue(String name) {
+		return settings.get(name);
+	}
+	
+	public synchronized File getAppDirectory() {
+		File thisAppDir = new File(new File(System.getProperty("user.home")),APP_DIRECTORYNAME);
+		if(!thisAppDir.exists()) {
+			thisAppDir.mkdir();
+		}
+		return thisAppDir;
+	}
 		
-	void saveSettings(Properties props) {
+	synchronized void  saveSettings(Properties props) {
 		File settingsFile = getSettingFile();
 		try (FileOutputStream fileIn = new FileOutputStream(settingsFile)){
 			props.store(fileIn,"Settings Saved");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		}	
+		}
+		settings = getSettings();
 	}
 	
 	private SettingsFile() {
 		settings = getSettings();
+		// All that will be included in Settings Dialog in the future
+		settings.put("minNumPathsForQuickstart",10);
+		settings.put("maxNumCashedImages", 50);
+		settings.put("cloudMailPrefix", "https://cloud.mail.ru/public/");
 	}
 	
 	private Properties getSettings() {
@@ -60,12 +77,7 @@ public class SettingsFile {
 	}
 
 	private File getSettingFile() {		
-		File userDir = new File(System.getProperty("user.home"));
-		File thisProgramDir = new File(userDir,SETTINGS_FOLDERNAME);
-		if(!thisProgramDir.exists()) {
-			thisProgramDir.mkdir();
-		}
-		return new File(thisProgramDir, SETTINGS_FILENAME);
+		return new File(getAppDirectory(), SETTINGS_FILENAME);
 	}
 		
 		

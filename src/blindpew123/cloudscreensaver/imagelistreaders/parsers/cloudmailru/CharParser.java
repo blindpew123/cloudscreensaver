@@ -1,4 +1,4 @@
-package blindpew123.cloudscreensaver.imagelistreaders.parsers;
+package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
 
 abstract class  CharParser {
 	
