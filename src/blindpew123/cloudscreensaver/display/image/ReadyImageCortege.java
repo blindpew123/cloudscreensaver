@@ -1,6 +1,7 @@
 package blindpew123.cloudscreensaver.display.image;
 
 import java.awt.image.BufferedImage;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 public class ReadyImageCortege {
@@ -21,7 +22,13 @@ public class ReadyImageCortege {
 	}
 	
 	private Properties copyMap(Properties map) {
-		return map == null ? new Properties():new Properties(map); 
+		Properties result = new Properties();
+		if (map != null) { 
+			for(Entry<Object, Object> entry: map.entrySet()) {
+				result.put(entry.getKey(),entry.getValue());
+			}
+		}
+		return result; 
 	}
 	
 }

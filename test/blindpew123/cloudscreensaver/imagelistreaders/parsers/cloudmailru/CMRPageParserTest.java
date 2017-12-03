@@ -22,8 +22,12 @@ public class CMRPageParserTest {
 
 	@Test
 	public void testNormalProcessing() {
-		Map<?,?> testMap = parser.processPage();
+		Map<String, Boolean> testMap = parser.processPage();
 		assertThat(testMap.size(),equalTo(3));
+		for(String path: testMap.keySet()) {
+				assertTrue(!testMap.get(path) && path.toLowerCase().endsWith(".jpg") 
+						|| testMap.get(path) && path.toLowerCase().endsWith("more"));
+		}
 	}
 
 	@Test(expected = RuntimeException.class)
@@ -34,7 +38,7 @@ public class CMRPageParserTest {
 	}
 	
 	@Test
-	public void testNonReadablePage() {
+	public void testNotFoundPage() {
 		parser = new CMRPageParser("https://cloud.mail.ru/public/", "DQEv/h");
 		Map<?,?> testMap = parser.processPage();
 		assertThat(testMap.size(),equalTo(0));

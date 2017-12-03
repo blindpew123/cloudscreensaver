@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 public class SettingsDialog extends JFrame {	
 
 	public SettingsDialog(ImageFileListReadersManager readersManager) {
-		setTitle(SettingsFile.getInstance().getResources("nameSettingsDialog"));
+		setTitle(SettingsFile.getInstance().getResource("nameSettingsDialog"));
 		setSize(400, 150);
 		getContentPane().add(new SettingsPanel(this, readersManager));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

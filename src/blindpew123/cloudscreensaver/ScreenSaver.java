@@ -7,6 +7,7 @@ package blindpew123.cloudscreensaver;
  */
 
 import blindpew123.cloudscreensaver.display.Display;
+import blindpew123.cloudscreensaver.display.DisplayManager;
 import blindpew123.cloudscreensaver.display.SimpleDisplay;
 import blindpew123.cloudscreensaver.display.image.ImageFeeder;
 import blindpew123.cloudscreensaver.imagelistreaders.ImageFileListReadersManager;
@@ -28,8 +29,8 @@ public class ScreenSaver {
 			return;
 		}
 		
-		//TODO: создание и выбор демонстратора на основе настроек.
-		displayModule = new SimpleDisplay();		
+		displayModule = DisplayManager.getInstance().getDisplay();
+		//TODO: набор ридеров должен передаваться из ридер менежера на основе путей файлов И настроек (кэш, изображения по дефолту)
 		feeder = new ImageFeeder(displayModule.getPrefferableImageSize(), ImageFileListReadersManager.getInstance().getFileTrees(startFoldersPathNames.split(";")));
 		initSuccess = true;
 	}
@@ -40,7 +41,7 @@ public class ScreenSaver {
 		while(initSuccess) {  //working loop until key or mouse event will not exit app. Also app may will close by catch Exception by ImageFeeder class  
 			displayModule.setImage(feeder.getReadyImageFromQueue());
 			displayModule.display();
-			Thread.sleep(4000); //Таймаут
+			Thread.sleep(4000); //TODO: Таймаут из настроек
 		}
 		
 	}

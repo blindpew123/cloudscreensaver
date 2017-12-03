@@ -12,6 +12,7 @@ import blindpew123.cloudscreensaver.settings.SettingsFile;
 public class DefaultImageReader extends ImageReader {
 
 	//TODO: check real path after deploy
+	//TODO: move to properties
 	private String[] defaultImages = {
 		"src/blindpew123/cloudscreensaver/resources/DSC01594.jpg",
 		"src/blindpew123/cloudscreensaver/resources/DSC02143.jpg",
@@ -27,10 +28,10 @@ public class DefaultImageReader extends ImageReader {
 	ReadyImageCortege getImage(String path) {
 		ReadyImageCortege result = null;
 		try {
-			if (imageReader == null) {
+			if (nextImageReader == null) {
 				return getDefaultImage(false, path);
 			}	
-			result = imageReader.getImage(path);
+			result = nextImageReader.getImage(path);
 			if (result == null) {
 				result = getDefaultImage(true, path);
 			}
@@ -40,11 +41,11 @@ public class DefaultImageReader extends ImageReader {
 		return result;
 	}
 	
-	private ReadyImageCortege getDefaultImage(boolean hasError, String path) throws IOException {
+	private ReadyImageCortege getDefaultImage(boolean hasError, String path) throws IOException { 
 		int index = ThreadLocalRandom.current().nextInt(4);
 		Properties map = new Properties();
-		map.put("path", hasError ? SettingsFile.getInstance().getResources("imageErrorMessage")+" "+path : "");
-		if(hasError) System.out.println(path);
+		map.put("path", hasError ? SettingsFile.getInstance().getResource("imageErrorMessage")+" "+path : "");
+		//TODO: use LocalPathReader instead
 		return new ReadyImageCortege(
 				ImageIO.read(Paths.get(defaultImages[index]).toAbsolutePath().toFile()), map);		
 	}

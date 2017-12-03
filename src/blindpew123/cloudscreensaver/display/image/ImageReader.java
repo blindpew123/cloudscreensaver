@@ -12,10 +12,10 @@ import java.util.Properties;
 
 public abstract class ImageReader {	
 	
-	ImageReader imageReader; 	
+	ImageReader nextImageReader; 	
 	
 	ImageReader(ImageReader reader){
-		imageReader  = reader;
+		nextImageReader  = reader;
 	}
 	
 	abstract ReadyImageCortege getImage(String path);

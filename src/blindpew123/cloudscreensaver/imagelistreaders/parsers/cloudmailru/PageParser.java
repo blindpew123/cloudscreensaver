@@ -13,8 +13,8 @@ public abstract class PageParser {
 	private CharParser charParser;
 	private WordParser wordParser;
 	
-	private Deque<Character> CharParseDeque = new LinkedList<>();
-	private Deque<String> WordParseDeque = new LinkedList<>();	
+	private Deque<Character> charParseDeque = new LinkedList<>();
+	private Deque<String> wordParseDeque = new LinkedList<>();	
 
 	public PageParser(String basePath, String currentLevelPath) {
 		this.basePath = basePath;
@@ -24,14 +24,9 @@ public abstract class PageParser {
 	public final Map<String, Boolean> processPage() {
 		charParser = initCharParser();
 	    wordParser = initWordParser();
-	    
-	   /* try (BufferedReader s = new BufferedReader(new InputStreamReader(getUrl().openStream()));
-		    	BufferedWriter debugFile = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(basePath.replace(":","").replace("/","--")+".html"))))) { */
-	
 	    try (BufferedReader s = new BufferedReader(new InputStreamReader(getUrl().openStream()))) {
 			String inputLine;
 			while ((inputLine = s.readLine()) != null) {
-			//	debugFile.write(inputLine+'\n');
 				char[] buffer = inputLine.toCharArray();
 				processBuffer(buffer);
 			}
@@ -78,19 +73,19 @@ public abstract class PageParser {
 		wordParser = wParser;
 	}
 	protected Deque<Character> getCharParseDeque() {
-		return CharParseDeque;
+		return charParseDeque;
 	}
 
 	protected void setCharParseDeque(Deque<Character> charParseDeque) {
-		CharParseDeque = charParseDeque;
+		this.charParseDeque = charParseDeque;
 	}
 
 	protected Deque<String> getWordParseDeque() {
-		return WordParseDeque;
+		return wordParseDeque;
 	}
 
 	protected void setWordParseDeque(Deque<String> wordParseDeque) {
-		WordParseDeque = wordParseDeque;
+		this.wordParseDeque = wordParseDeque;
 	}
 
 	private URL getUrl() throws MalformedURLException {

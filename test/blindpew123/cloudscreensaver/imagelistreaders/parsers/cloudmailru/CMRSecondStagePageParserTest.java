@@ -49,7 +49,6 @@ public class CMRSecondStagePageParserTest {
 		parser = new CMRSecondStagePageParser(PREFIX, "DQEv/h67e4AAF9/DSC05160" );		
 		Map<String, Boolean> map = parser.processPage();
 		String url = getParts(map)[0]+"/"+"DQEv/h67e4AAF9/DSC05160"+"?key="+getParts(map)[1];
-		System.out.println(url);
 		ImageIO.read(new URL(url));
 		fail();
 	}

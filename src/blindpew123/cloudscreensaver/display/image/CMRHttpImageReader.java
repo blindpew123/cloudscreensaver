@@ -26,9 +26,12 @@ public class CMRHttpImageReader extends ImageReader {
 
 	@Override
 	ReadyImageCortege getImage(String path) {
-		if (path == null || !ImageFileListReadersManager.isCloudMailRuPath(path)) return null;
+		if (path == null) {return null;} 
+		if (!ImageFileListReadersManager.isCloudMailRuPath(path)) {
+				return nextImageReader == null ? null : nextImageReader.getImage(path);				
+		}
 		Map<String, Boolean> map = new CMRSecondStagePageParser(path, "").processPage();
-		if(map.size() == 0) return null; // TODO: or may be throw ?
+		if(map.size() == 0) {return null;} // TODO: or may be throw ?
 		
 		splitPath(path);
 		addPathParts(map);
@@ -36,9 +39,9 @@ public class CMRHttpImageReader extends ImageReader {
 		ImageReader reader = new HttpImageReader(null);
 		do {
 			result = reader.getImage(buildPath(currentShard)); //default shard, already in the list
-			if (result != null) break;
+			if (result != null) {break;}
 			shards.remove(currentShard);
-			if (shards.size()==0) break;
+			if (shards.size()==0) {break;}
 			currentShard = shards.iterator().next();
 		} while(true); //TODO: Здесь условие проверки времени запросов
 		return result;		
@@ -65,13 +68,12 @@ public class CMRHttpImageReader extends ImageReader {
 			result.append(i==SHARD_POSITION ? shard : pathParts.get(i));
 			result.append(i<pathParts.size()-2 ? '/' : "");	// ...filename and parameter
 		}
-		System.out.println(result.toString());
 		return result.toString();
 	}	
 	
 	private void splitPath(String path) {
 		pathParts = new LinkedList<>(Arrays.asList(path.split("/"))); //0-"https:",1-"",2 - cloud web-server or shard,3....
-		for(int i = 0; i<=LAST_PREFIX_POSITION;i++) pathParts.remove(); // don't need standard CloudMailRu prefix elements;
+		for(int i = 0; i<=LAST_PREFIX_POSITION;i++) {pathParts.remove();} // don't need standard CloudMailRu prefix elements
 	}
 	
 	

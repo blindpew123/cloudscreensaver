@@ -6,7 +6,8 @@ public class CMRWordParserId extends WordParser {
 		super(context);
 	}
 	@Override
-	protected boolean process(String value) {
+	public boolean process(String value) {
+		if(!isNotNull(value)) return false;
 		if(!getContext().getWordParseDeque().isEmpty()) {
 			 getContext().getFileMap().put(value, getContext().getWordParseDeque().pop().equals("folder"));		
 		}

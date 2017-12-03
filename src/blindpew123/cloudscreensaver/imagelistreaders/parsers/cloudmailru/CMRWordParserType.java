@@ -6,10 +6,12 @@ public class CMRWordParserType extends WordParser {
 		super(context);
 	}
 	@Override
-	protected boolean process(String value) {
-		getContext().getWordParseDeque().clear();
-		getContext().getWordParseDeque().push(value.toString());
-		getContext().setStringParser(new CMRWordParserTag(getContext()));
+	public boolean process(String value) {
+		if(isNotNull(value)) {
+			getContext().getWordParseDeque().clear();
+			getContext().getWordParseDeque().push(value);
+			getContext().setStringParser(new CMRWordParserTag(getContext()));
+		}
 		return false;
 	}
 

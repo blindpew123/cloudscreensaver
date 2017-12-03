@@ -16,6 +16,7 @@ import com.drew.metadata.exif.ExifReader;
 interface MetaReader {
 	
 	default Properties readExif(InputStream stream){
+		if (stream == null) {return null;}
 		Iterable<JpegSegmentMetadataReader> readers = Arrays.asList(new ExifReader());
 		try {
             Metadata metadata = JpegMetadataReader.readMetadata(stream, readers);

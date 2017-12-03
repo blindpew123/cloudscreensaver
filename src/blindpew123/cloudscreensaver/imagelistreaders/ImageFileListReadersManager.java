@@ -19,8 +19,7 @@ public class ImageFileListReadersManager {
 	private ImageFileList sumOfAllTrees;
 	
 	private ImageFileListReadersManager() {
-		sumOfAllTrees = new ImageFileList();
-		readers = new ArrayList<>();
+		
 	}
 	
 	public static synchronized ImageFileListReadersManager getInstance() {
@@ -29,12 +28,13 @@ public class ImageFileListReadersManager {
 	}
 	
 	public ImageFileList getFileTrees(String[] startFoldersPathNames) {
+		initLists();
 		for(String path:startFoldersPathNames) {
 			setReaderForPath(path.trim());	
 		}
 		ExecutorService es = Executors.newWorkStealingPool();
 		for(ImageFileListReader reader : readers) {
-			es.execute(()->reader.readListTo());
+			es.execute(reader::readListTo);
 		}
 		es.shutdown();
 		return sumOfAllTrees;
@@ -49,8 +49,8 @@ public class ImageFileListReadersManager {
 	
 	private ImageFileListReader getReader(String path, ImageFileList fileList) {
 		ImageFileListReader reader = null;
-		if (!preCheck(path)) return reader;
-		if(isLocalPath(path)) {
+		if (!preCheck(path)) {return reader;}
+		if(isLocalOrLocalNetworkPath(path)) {
 			reader = new LocalFileSystemImageFileListReader(path, fileList);
 		} else if(isCloudMailRuPath(path)) {
 			String[] prefix0path1 = splitPathToPrefixAndVariablePath(path);
@@ -63,15 +63,15 @@ public class ImageFileListReadersManager {
 		return getReader(path,null) != null;
 	}
 	
+	// TODO: remove static methods to another class
+	
 	public static boolean isCloudMailRuPath(String path) {		
-		if(path.startsWith(getCloudMailRuPrefix())) return true;
-		return false;
+		return path.startsWith(getCloudMailRuPrefix());		
 	}
 	
-	public static boolean isLocalPath(String path) {
-		if (path.charAt(1)!=':' && path.charAt(1)!='/') return false;
-		if (!('A'<= path.charAt(0) && path.charAt(0)<='z' || path.charAt(0) =='/' )) return false;
-		return true;
+	public static boolean isLocalOrLocalNetworkPath(String path) {
+		return (path.charAt(1)!=':' && path.charAt(1)!='/') 
+				&& (!('A'<= path.charAt(0) && path.charAt(0)<='z' || path.charAt(0) =='/' ));
 	}
 	
 	public static String getCloudMailRuPrefix() {		
@@ -82,11 +82,17 @@ public class ImageFileListReadersManager {
 		if(path.startsWith(getCloudMailRuPrefix())) {
 			return new String[] {getCloudMailRuPrefix(), path.replace(getCloudMailRuPrefix(),"")};
 		}
-		throw new IllegalArgumentException(); //Unbelievable!
+		throw new IllegalArgumentException(); //That line will be never reached
 	}
 	
 	private static boolean preCheck(String path) {
 		return path!=null && path.length()>2;
+	}	
+	
+	
+	private void initLists() {
+		sumOfAllTrees = new ImageFileList();
+		readers = new ArrayList<>();
 	}
 	
 	

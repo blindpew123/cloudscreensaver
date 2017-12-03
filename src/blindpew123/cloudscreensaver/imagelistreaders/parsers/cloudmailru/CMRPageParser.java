@@ -32,6 +32,7 @@ public class CMRPageParser extends PageParser {
 
 	@Override
 	protected void finalProcessing() {
+		// implementation don't need for CMR pages
 	}
 
 }

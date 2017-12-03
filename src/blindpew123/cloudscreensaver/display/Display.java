@@ -20,7 +20,7 @@ import java.io.IOException;
 public abstract class Display extends JPanel implements ActionListener{
 	
 	private JFrame frame = new JFrame();
-	private Rectangle rectangle; // try to get size
+	private Rectangle rectangle; // try to get image size
 	private Color color=Color.BLACK;
 	private KeyListener keyHandler;
 	private MouseListener mouseHandler;
@@ -44,7 +44,7 @@ public abstract class Display extends JPanel implements ActionListener{
 	}	
 	public Display() {
 		super(null);
-		//TODO: make it better;
+		//TODO: make it better
 		setKeyHandler(new KeyHandler());
 		setMouseHandler(new MouseHandler());
 		
@@ -63,6 +63,7 @@ public abstract class Display extends JPanel implements ActionListener{
 		System.exit(0);		//TODO: What's happened here?
 	}
 	
+	@Override
 	public final void paintComponent (Graphics g) {	
 		super.paintComponent(g);
 		if(readyToShow) paintImage(g,getImageCortege().getImage());

@@ -68,7 +68,7 @@ public class LocalImageReaderTest {
 	public void testExifPresent() {
 		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC01594.jpg").toAbsolutePath();
 		ReadyImageCortege img = reader.getImage(path.toString());
-		assertThat(img.getInfo().size(),equalTo(49));
+		assertThat(img.getInfo().size(),equalTo(50));
 	}
 	
 }

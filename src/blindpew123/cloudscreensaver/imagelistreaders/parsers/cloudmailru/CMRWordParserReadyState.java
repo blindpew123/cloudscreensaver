@@ -7,8 +7,8 @@ public class CMRWordParserReadyState extends WordParser {
 	}
 	
 	@Override
-	protected boolean process(String value) {
-		if (value.equals("tree")) {
+	public boolean process(String value) {
+		if (isNotNull(value) && value.equals("tree")) {
 			getContext().setStringParser(new CMRWordParserTag(getContext()));
 			getContext().setCharParser(new BracketParser(getContext()));
 		}

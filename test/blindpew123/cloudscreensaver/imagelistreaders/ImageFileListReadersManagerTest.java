@@ -56,15 +56,17 @@ public class ImageFileListReadersManagerTest {
 	}
 	
 	@Test
-	public void testListImagesForLocalPath() { //Check path and images before this test
+	public void testListImagesForLocalPath() throws InterruptedException { //Check path and images before this test
 		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/");
 		ImageFileList list= manager.getFileTrees(new String[]{path.toAbsolutePath().toString()});
-		assertThat(list.getSize(),equalTo(4));
+		Thread.sleep(1000); // 
+		assertThat(list.getSize(),equalTo(6));
 	}
 	
 	@Test
-	public void testListImagesForCloudMailPath() {
+	public void testListImagesForCloudMailPath() throws InterruptedException {
 		ImageFileList list= manager.getFileTrees(new String[]{"https://cloud.mail.ru/public/DQEv/h67e4AAF9"});
+		Thread.sleep(5000); //
 		assertThat(list.getSize(),equalTo(3));
 	}
 	

@@ -23,13 +23,8 @@ public class ImageFeeder {
 	
 	private class ImageProcessor implements Runnable {
 
-		ImageReader imgReader = new CacheImageReader(
-				new ImageResizer(						
-				prefferableSize, new DefaultImageReader(
-				new HttpImageReader(
-				new LocalImageReader(
-				new CMRHttpImageReader(
-				null))))));
+		//TODO: 1. ReadersManager 
+		ImageReader imgReader =  ImageReadersManager.getInstance().getReader();
 		
 		@Override
 		public void run() {			

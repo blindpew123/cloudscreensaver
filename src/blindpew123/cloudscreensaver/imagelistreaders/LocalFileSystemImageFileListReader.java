@@ -27,7 +27,7 @@ class LocalFileSystemImageFileListReader extends ImageFileListReader{
 	
 	@Override
 	public ImageFileList readList() {		
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		
 		if(startPath != null) {		
 			try {
@@ -36,9 +36,7 @@ class LocalFileSystemImageFileListReader extends ImageFileListReader{
 		            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 		
 		                String fileName = file.toString();
-		            	if (isFormatSupported(fileName)) {
-		                	result.add(fileName);
-		                }
+		            	if (isFormatSupported(fileName)) {result.add(fileName);}
 		                return FileVisitResult.CONTINUE;
 		            }
 		
@@ -56,9 +54,6 @@ class LocalFileSystemImageFileListReader extends ImageFileListReader{
 
 	@Override
 	public void readListTo() {			
-		
-		// List<String> result = new ArrayList<String>();
-		
 		if(startPath != null) {
 			
 			List<String> result = new ArrayList<>();

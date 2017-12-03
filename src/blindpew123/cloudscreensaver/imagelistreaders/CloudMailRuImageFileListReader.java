@@ -4,8 +4,6 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
-import javax.naming.OperationNotSupportedException;
-
 import blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru.CMRPageParser;
 
 
@@ -36,27 +34,10 @@ class CloudMailRuImageFileListReader extends ImageFileListReader {
 				
 				imageList.getImagesList().addAll(partialResult.keySet()
 						.stream()
-						.filter((k)->{return !partialResult.get(k);})						
+						.filter(k->!partialResult.get(k))						
 						.map(s->ImageFileListReadersManager.getCloudMailRuPrefix()+s)
-						.filter(s->isFormatSupported(s))
+						.filter(CloudMailRuImageFileListReader.this::isFormatSupported)
 						.collect(Collectors.toList()));
-				
-				/*for(String path:partialResult.keySet()) {
-					if(partialResult.get(path)) {    
-						tasks.add(new PageReaderTask(prefix, path));
-					} else if(isFormatSupported(path)) {  
-						resultImgUrlQueue.offer(prefix+path);
-					}
-					else if(isFormatSupported(path)){
-					//	Thread.sleep(50);
-						Map<String, Boolean> reallink = new CloudMailRuSecondStagePageParser(prefix,path).processPage();
-						if(reallink!=null && reallink.size()>0) {
-							resultImgUrlQueue.add(reallink.keySet().iterator().next()); // real path to full image;
-						} else {
-						   System.out.println(path+ ": " +reallink);		
-						}
-					} 		
-				} */
 				
 				if(!tasks.isEmpty())invokeAll(tasks);  // child folders
 				
@@ -73,9 +54,6 @@ class CloudMailRuImageFileListReader extends ImageFileListReader {
 	public void readListTo() {		
 		ForkJoinPool pool = new ForkJoinPool();
 		pool.invoke(new PageReaderTask(prefix, startPath));	
-	//	System.out.println("Paths to files " + resultImageTree.keySet().stream().filter((k->{return !resultImageTree.get(k);})).count());
-	//	System.out.println(resultImgUrlQueue.size());
-	//	return new ImageFileList(resultImgUrlQueue);
 	}
 
 	@Override

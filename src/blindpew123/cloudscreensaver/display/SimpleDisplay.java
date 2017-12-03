@@ -3,13 +3,14 @@ package blindpew123.cloudscreensaver.display;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class SimpleDisplay extends Display {
+	
+	//TODO: Find way to reduce displayed path name
 	
 	private final ShadowFormattedTextBlock nameLabel; 
 	private final ShadowFormattedTextBlock exifLabel;
@@ -68,7 +69,7 @@ public class SimpleDisplay extends Display {
 	 * @param string - path to check and remove if it needed
 	 * @return processed path
 	 */
-	private String removeCloudMailUnnecessaryInfo(String string){ 
+	private String removeCloudMailUnnecessaryInfo(String string){ //TODO - Move from here... finding palce
 		if(!string.contains("mail.ru")) return string;
 		
 		int counter = 0;

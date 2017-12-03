@@ -49,7 +49,7 @@ public class SettingsPanel extends JPanel {
 		JPanel pathFieldPanel = new JPanel();
 		pathFieldPanel.setLayout(new BoxLayout(pathFieldPanel, BoxLayout.LINE_AXIS));
 
-		JLabel pathLabel = new JLabel(settingsFile.getResources("pathName"));
+		JLabel pathLabel = new JLabel(settingsFile.getResource("pathName"));
 		pathLabel.setAlignmentX(0.5f);
 		pathFieldPanel.add(pathLabel);
 		
@@ -89,11 +89,11 @@ public class SettingsPanel extends JPanel {
 		checkBoxesPanel.setLayout(new BoxLayout(checkBoxesPanel, BoxLayout.Y_AXIS));
 		checkBoxesPanel.setBorder(BorderFactory.createEmptyBorder());
 		
-		chckbxShowFilenames = new JCheckBox(settingsFile.getResources("showFileNames"));
+		chckbxShowFilenames = new JCheckBox(settingsFile.getResource("showFileNames"));
 		chckbxShowFilenames.setSelected(settingsFile.getSettingsValue("showFileNamesValue").equals("true"));
 		checkBoxesPanel.add(chckbxShowFilenames);
 		
-		chckbxShowExif = new JCheckBox(settingsFile.getResources("showExif"));
+		chckbxShowExif = new JCheckBox(settingsFile.getResource("showExif"));
 		chckbxShowExif.setSelected(settingsFile.getSettingsValue("showExifValue").equals("true"));
 		checkBoxesPanel.add(chckbxShowExif);
 		
@@ -122,7 +122,7 @@ public class SettingsPanel extends JPanel {
 				String[] imagePaths = textField.getText().split(";");
 				for(String path:imagePaths) {
 					if (!readersManager.isReaderAvailable(path)) {  // Can't parse this path, so user must remove it.
-						lblWarning.setText(settingsFile.getResources("textWarning")+" "+path);
+						lblWarning.setText(settingsFile.getResource("textWarning")+" "+path);
 						return; 
 					}
 				}
@@ -134,7 +134,7 @@ public class SettingsPanel extends JPanel {
 		
 		add(btnOk, gbc_btnOk);
 		
-		JButton btnCancel = new JButton(settingsFile.getResources("cancelText"));
+		JButton btnCancel = new JButton(settingsFile.getResource("cancelText"));
 		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
 		gbc_btnCancel.fill = GridBagConstraints.BOTH;
 		gbc_btnCancel.insets = new Insets(0, 0, 5, 5);
@@ -143,7 +143,7 @@ public class SettingsPanel extends JPanel {
 		btnCancel.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO:					
+				//TODO:	What is it				
 				parent.dispose();				
 			}
 		});

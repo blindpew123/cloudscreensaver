@@ -41,7 +41,7 @@ public class CacheImageReaderTest {
 	}
 	
 	@Test
-	public void testNullImageFromPrelimiaryReadersNotGoToCacheAndCurrentReaderBypassNull() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+	public void testNullImageFromPrelimiaryReadersDoNotPutToCacheAndCurrentReaderBypassNull() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
 		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC.jpg").toAbsolutePath();
 		ReadyImageCortege img = reader.getImage(path.toString());		
 		Field f = reader.getClass().getDeclaredField("cache");
@@ -50,20 +50,7 @@ public class CacheImageReaderTest {
 		Map<String, BufferedImage> cache = (Map<String, BufferedImage>) f.get(reader);		
 		assertNull(img);
 		assertFalse(cache.containsKey(path.toString()));
-	}
-	
-	
-	@Test
-	public void testGetImageFromPrelimiaryReadersAndPutToCache() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC01594.jpg").toAbsolutePath();
-		ReadyImageCortege img = reader.getImage(path.toString());		
-		Field f = reader.getClass().getDeclaredField("cache");
-		f.setAccessible(true);
-		@SuppressWarnings("unchecked")
-		Map<String, BufferedImage> cache = (Map<String, BufferedImage>) f.get(reader);		
-		assertThat(img.getImage().getWidth(), equalTo(200));
-		assertTrue(cache.containsKey(path.toString()));
-	}
+	}	
 	
 	@Test
 	public void testCahedImageWillBeUsed() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
@@ -78,4 +65,18 @@ public class CacheImageReaderTest {
 		img = reader.getImage(path.toString());
 		assertThat(img.getImage().getWidth(), equalTo(200));		
 	}
+	
+	@Test
+	public void testGetImageFromPrelimiaryReadersAndPutToCache() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC01594.jpg").toAbsolutePath();
+		ReadyImageCortege img = reader.getImage(path.toString());		
+		Field f = reader.getClass().getDeclaredField("cache");
+		f.setAccessible(true);
+		@SuppressWarnings("unchecked")
+		Map<String, BufferedImage> cache = (Map<String, BufferedImage>) f.get(reader);		
+		assertThat(img.getImage().getWidth(), equalTo(200));
+		assertTrue(cache.containsKey(path.toString()));
+	}
+	
+	
 }

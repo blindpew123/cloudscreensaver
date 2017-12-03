@@ -32,7 +32,7 @@ public class ImageFileList {
 	}
 	
 	public String nextImagePath() {
-		if(imagesList.size() == 0) return null;
+		if(imagesList.isEmpty()) return null;
 		return imagesList.get(ThreadLocalRandom.current().nextInt(imagesList.size()));
 	}
 	

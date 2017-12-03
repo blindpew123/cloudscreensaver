@@ -1,11 +1,11 @@
 package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
 
 public class CMRSecondStageTagParser extends WordParser {	
-	enum State {
+	enum State implements WordStateMachine{
 		READY_WEBLINK{
 			@Override
-			boolean process(String value) {
-				if(value.equals("weblink_get")) {
+			public boolean process(String value) {
+				if(isNotNull(value) && value.equals("weblink_get")) {
 					context.current = State.WEBLINK_VALUE;
 				}
 				return false;
@@ -13,8 +13,8 @@ public class CMRSecondStageTagParser extends WordParser {
 		},
 		WEBLINK_VALUE{
 			@Override
-			boolean process(String value) {
-				if(value.startsWith("https:")) {
+			public boolean process(String value) {
+				if(isNotNull(value) && value.startsWith("https:")) {
 					context.current = State.READY_DOWNLOAD;
 					return true;
 				}
@@ -23,8 +23,8 @@ public class CMRSecondStageTagParser extends WordParser {
 		},
 		READY_DOWNLOAD{
 			@Override
-			boolean process(String value) {
-				if(value.equals("download")) {
+			public boolean process(String value) {
+				if(isNotNull(value) && value.equals("download")) {
 					context.current = State.DOWNLOAD_KEY;
 				}
 				return false;
@@ -32,7 +32,8 @@ public class CMRSecondStageTagParser extends WordParser {
 		},
 		DOWNLOAD_KEY {
 			@Override
-			boolean process(String value) {
+			public boolean process(String value) {
+				if(!isNotNull(value)) return false;
 				context.current = State.STOP;
 				return true;
 			}
@@ -40,11 +41,10 @@ public class CMRSecondStageTagParser extends WordParser {
 		},
 		STOP{
 			@Override
-			boolean process(String value) {				
+			public boolean process(String value) {				
 				return false;
 			}			
 		};		
-		abstract boolean process(String value);
 		static CMRSecondStageTagParser context;
 	}
 	
@@ -56,7 +56,7 @@ public class CMRSecondStageTagParser extends WordParser {
 	}
 	
 	@Override
-	protected boolean process(String value) {		
+	public boolean process(String value) {		
 		return current.process(value);
 	}
 }

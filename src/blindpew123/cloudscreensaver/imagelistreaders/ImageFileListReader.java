@@ -21,7 +21,7 @@ public abstract class ImageFileListReader {
 	public abstract void readListTo(); // 
 		
 	protected boolean isFormatSupported(String strTest) {
-		String names[] = ImageIO.getReaderFormatNames();
+		String[] names = ImageIO.getReaderFormatNames();
 	
 		for (int i = 0; i < names.length; ++i) {
 			if (strTest.endsWith(names[i])) return true;

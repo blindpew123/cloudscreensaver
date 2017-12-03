@@ -25,7 +25,7 @@ public class SettingsFile {
 		return instance;
 	}	
 	
-	public String getResources(String name) {
+	public synchronized String getResource(String name) {
 		return (String) resources.getObject(name);
 	}	
 
@@ -61,6 +61,8 @@ public class SettingsFile {
 		settings.put("minNumPathsForQuickstart",10);
 		settings.put("maxNumCashedImages", 50);
 		settings.put("cloudMailPrefix", "https://cloud.mail.ru/public/");
+		settings.put("useDefaultImages",true);
+		settings.put("useCacheForImages",true);
 	}
 	
 	private Properties getSettings() {

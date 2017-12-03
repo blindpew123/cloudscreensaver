@@ -10,14 +10,13 @@ public class LocalImageReader extends ImageReader implements MetaReader {
 
 	LocalImageReader(ImageReader reader) {
 		super(reader);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	ReadyImageCortege getImage(String path) {
 		ReadyImageCortege result = null;
-		if (imageReader!=null) {
-			result = imageReader.getImage(path);
+		if (nextImageReader!=null) {
+			result = nextImageReader.getImage(path);
 			if (result != null) return result;
 		}		
 		try {

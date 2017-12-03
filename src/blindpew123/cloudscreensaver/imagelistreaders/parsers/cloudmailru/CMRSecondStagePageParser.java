@@ -35,5 +35,7 @@ public class CMRSecondStagePageParser extends PageParser {
 	}
 
 	@Override
-	protected void finalProcessing() {}
+	protected void finalProcessing() {
+		// implementation don't need for CMR pages
+	}
 }

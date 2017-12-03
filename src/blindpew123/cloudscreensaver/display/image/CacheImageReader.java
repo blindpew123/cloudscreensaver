@@ -17,8 +17,8 @@ public class CacheImageReader extends ImageReader {
 	@Override
 	ReadyImageCortege getImage(String path) {
 		ReadyImageCortege result = cache.get(path); 
-		if (result == null && imageReader != null) {
-			result = imageReader.getImage(path);
+		if (result == null && nextImageReader != null) {
+			result = nextImageReader.getImage(path);
 			if (result != null) {
 				cache.put(path, result);
 			}
