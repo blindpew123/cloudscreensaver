@@ -1,5 +1,7 @@
 package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
 
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.*;
+
 public class CMRSecondStageTagParser extends WordParser {	
 	enum State implements WordStateMachine{
 		READY_WEBLINK{

@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import blindpew123.cloudscreensaver.imagelistreaders.CloudMailRuImageFileListReader;
 import blindpew123.cloudscreensaver.imagelistreaders.ImageFileListReader;
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
 
 import org.junit.*;
 
@@ -34,30 +35,30 @@ public class CloudMailRuImageFileListReaderTest {
 		}
 		
 	}
+	
 	//https://cloud.mail.ru/public/Cw2G/Vkvwnmq9p - my cloud
 	//https://cloud.mail.ru/public/DQEv/h67e4AAF9/ - test cloud
 		
 	@Test
 	public void testMultiThreadsLocalPathResultOK() throws InterruptedException {
 			
-			String levelPath = "/Cw2G/Vkvwnmq9p";
+			String levelPath = "DQEv/h67e4AAF9/";
 		
 			long start = System.currentTimeMillis();
 			ImageFileList list = new ImageFileList();
 			
 			ExecutorService es = Executors.newWorkStealingPool();
-			Future<?> task = es.submit(new MultiReader(new CloudMailRuImageFileListReader(prefix,levelPath ,list)));
+			Future<?> task = es.submit(new MultiReader(new CloudMailRuImageFileListReader(new ImagePath(prefix +levelPath, true) ,list)));
 			boolean flag = false;		
 			while(!task.isDone()) {
 				Thread.yield();
 				if(!flag && list.getSize() >= 10) {
 					flag = true;
-					System.out.println(System.currentTimeMillis()-start);
 				}		
 			}
 			es.shutdown();
 			assertThat(list.getSize(),equalTo(3));
-			assertTrue(list.getImagesList().get(0).endsWith(".jpg") && list.getImagesList().get(0).startsWith(levelPath));
+			assertTrue(list.getImagesList().get(0).getPath().endsWith(".jpg") && list.getImagesList().get(0).getPath().startsWith(levelPath));
 		}		
 
 	/*

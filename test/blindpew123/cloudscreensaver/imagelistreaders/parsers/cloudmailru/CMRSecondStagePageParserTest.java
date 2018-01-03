@@ -7,11 +7,14 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
 
 public class CMRSecondStagePageParserTest {
 
@@ -24,41 +27,41 @@ public class CMRSecondStagePageParserTest {
 	
 	@Before
 	public void setUp() throws Exception {		
-		parser = new CMRSecondStagePageParser(PREFIX, IMAGEPATH );	
+		parser = new CMRSecondStagePageParser(new ImagePath(PREFIX+IMAGEPATH, true));	
 	}
 
 	@Test
 	public void testOK() throws IOException {
-		Map<String, Boolean> map = parser.processPage();
+		Set<ImagePath> set = parser.processPage();
 		
-		String url = getParts(map)[0]+"/"+IMAGEPATH+"?key="+getParts(map)[1];
+		String url = getParts(set)[0]+"/"+IMAGEPATH+"?key="+getParts(set)[1];
 		BufferedImage image = ImageIO.read(new URL(url));
-		assertThat(map.size(), equalTo(2));
+		assertThat(set.size(), equalTo(2));
 		assertThat(image.getHeight(), equalTo(3264));
 	}
 	
 	@Test
 	public void testWrongPathPartButResultOK() throws IOException {		
-		parser = new CMRSecondStagePageParser(PREFIX, "DQEv/h67e4AAF9/DSC05160" );		
-		Map<String, Boolean> map = parser.processPage();
-		assertThat(map.size(), equalTo(2));		
+		parser = new CMRSecondStagePageParser(new ImagePath(PREFIX+"DQEv/h67e4AAF9/DSC05160",false));		
+		Set<ImagePath> set = parser.processPage();
+		assertThat(set.size(), equalTo(2));		
 	}
 	
 	@Test(expected = IOException.class)
 	public void testWrongPathNotAllowUseResult() throws IOException {		
-		parser = new CMRSecondStagePageParser(PREFIX, "DQEv/h67e4AAF9/DSC05160" );		
-		Map<String, Boolean> map = parser.processPage();
-		String url = getParts(map)[0]+"/"+"DQEv/h67e4AAF9/DSC05160"+"?key="+getParts(map)[1];
+		parser = new CMRSecondStagePageParser(new ImagePath(PREFIX+"DQEv/h67e4AAF9/DSC05160",false));		
+		Set<ImagePath> set = parser.processPage();
+		String url = getParts(set)[0]+"/"+"DQEv/h67e4AAF9/DSC05160"+"?key="+getParts(set)[1];
 		ImageIO.read(new URL(url));
 		fail();
 	}
 	
 	
-	private String[] getParts(Map<String, Boolean> map) {
+	private String[] getParts(Set<ImagePath> map) {
 		String[] result = new String[2];
-		for(String str:map.keySet()) {
-			if (map.get(str)) result[0] = str;
-			else result[1] = str;
+		for(ImagePath str:map) {
+			if (str.getPath().startsWith("https:")) result[0] = str.getPath();
+			else result[1] = str.getPath();
 		}
 		return result;
 	}

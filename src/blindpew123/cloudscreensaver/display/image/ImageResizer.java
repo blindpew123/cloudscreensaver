@@ -4,6 +4,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import com.mortennobel.imagescaling.*;
 
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
+
 class ImageResizer extends ImageReader{
 	
 	Rectangle screenSize;
@@ -35,12 +37,12 @@ class ImageResizer extends ImageReader{
 	}
 
 	@Override
-	ReadyImageCortege getImage(String path) {
+	ReadyImageCortege getImage(ImagePath path) {
 		ReadyImageCortege result = null;
 		if (nextImageReader!=null) {
 			result = nextImageReader.getImage(path);
 			if (result != null) {
-				result = new ReadyImageCortege(resize(result.getImage()),result.getInfo());				
+				result = new ReadyImageCortege(resize(result.getImage()), result.getPath(), result.getInfo(), result.checkError());				
 			}
 		}
 		return result;

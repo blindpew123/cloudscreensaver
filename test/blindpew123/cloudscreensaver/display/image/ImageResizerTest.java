@@ -14,8 +14,9 @@ import blindpew123.cloudscreensaver.display.image.ImageReader;
 import blindpew123.cloudscreensaver.display.image.ImageResizer;
 import blindpew123.cloudscreensaver.display.image.LocalImageReader;
 import blindpew123.cloudscreensaver.display.image.ReadyImageCortege;
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
 
-//TODO: Add tests for vertical oriented image and image with size less than screen
+//TODO: Add tests for vertical oriented image and image with original size less than screen
 
 public class ImageResizerTest {
 
@@ -31,13 +32,13 @@ public class ImageResizerTest {
 	@Test
 	public void testSucssesfullyRead() {
 		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC01594.jpg").toAbsolutePath();
-		ReadyImageCortege img = reader.getImage(path.toString());
+		ReadyImageCortege img = reader.getImage(new ImagePath(path.toString(),false));
 		assertThat(img.getImage().getWidth(), equalTo(200));
 	}
 	
 	@Test
 	public void testUnsucssesfullyRead() {
-		ReadyImageCortege img = reader.getImage("https://cloclo41.datacloudmail.ru/weblink/thumb/xw1/DQEv/h67e4AAF9/DSC05252.jpg");
+		ReadyImageCortege img = reader.getImage(new ImagePath("https://cloclo41.datacloudmail.ru/weblink/thumb/xw1/DQEv/h67e4AAF9/DSC05252.jpg", false));
 		assertNull(img);
 	}
 	
@@ -45,7 +46,7 @@ public class ImageResizerTest {
 	public void testWorkWithNullPreliminaryReader() {
 		Rectangle newSize = new Rectangle(200,100);
 		reader = new ImageResizer(newSize, null);		
-		ReadyImageCortege img = reader.getImage("https://cloclo41.datacloudmail.ru/weblink/thumb/xw1/DQEv/h67e4AAF9/DSC05252.jpg");
+		ReadyImageCortege img = reader.getImage(new ImagePath("https://cloclo41.datacloudmail.ru/weblink/thumb/xw1/DQEv/h67e4AAF9/DSC05252.jpg", false));
 		assertNull(img);
 	}
 

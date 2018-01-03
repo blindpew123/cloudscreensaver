@@ -2,15 +2,15 @@ package blindpew123.cloudscreensaver.imagelistreaders;
 
 import javax.imageio.ImageIO;
 
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
+
 public abstract class ImageFileListReader {
 	
 	final ImageFileList imageList;
+	final ImagePath startPath;
 	
-	public ImageFileListReader() {
-		imageList = null;
-	};
-	
-	public ImageFileListReader(ImageFileList imageList) {
+	public ImageFileListReader(ImagePath startPath, ImageFileList imageList) {
+		this.startPath = startPath;
 		this.imageList = imageList;
 	}
 	
@@ -20,11 +20,11 @@ public abstract class ImageFileListReader {
 	
 	public abstract void readListTo(); // 
 		
-	protected boolean isFormatSupported(String strTest) {
+	protected boolean isFormatSupported(ImagePath path) {
 		String[] names = ImageIO.getReaderFormatNames();
 	
 		for (int i = 0; i < names.length; ++i) {
-			if (strTest.endsWith(names[i])) return true;
+			if (path.toString().endsWith(names[i])) return true;
 		}
 		return false;	
 	}

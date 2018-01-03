@@ -2,31 +2,33 @@ package blindpew123.cloudscreensaver.display;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.util.Properties;
 
 import javax.swing.SwingConstants;
 
+import blindpew123.cloudscreensaver.display.image.ReadyImageCortege;
+import blindpew123.cloudscreensaver.settings.SettingsFile;
+
 @SuppressWarnings("serial")
 public class SimpleDisplay extends Display {
 	
-	//TODO: Find way to reduce displayed path name
-	
 	private final ShadowFormattedTextBlock nameLabel; 
 	private final ShadowFormattedTextBlock exifLabel;
-	private static final int FONT_SIZE = 18; // TODO: Move to Settings Dialog
+	
 	
 	public SimpleDisplay(){
 		
 		nameLabel = new ShadowFormattedTextBlock()
 			.setPosition(getScreenSize(), SwingConstants.LEFT, SwingConstants.TOP)
-			.setFontSize(FONT_SIZE)
+			.setFontSize((Integer)SettingsFile.getInstance().getSettingsValue("fontSize"))
 			.setForeColor(Color.ORANGE)
 			.setBackColor(Color.BLACK);
 		nameLabel.placeTo(this);
 		exifLabel = new ShadowFormattedTextBlock()
 				.setPosition(getScreenSize(), SwingConstants.RIGHT, SwingConstants.BOTTOM)
-				.setFontSize(FONT_SIZE)
+				.setFontSize((Integer)SettingsFile.getInstance().getSettingsValue("fontSize"))
 				.setForeColor(Color.ORANGE)
 				.setBackColor(Color.BLACK);
 		exifLabel.placeTo(this);
@@ -41,7 +43,7 @@ public class SimpleDisplay extends Display {
 
 	@Override
 	public void display() {
-		setFileNameText(nameLabel, getImageCortege().getInfo());
+		setFileNameText(nameLabel, getImageCortege());
 		setExifText(exifLabel, getImageCortege().getInfo());
 		repaint();
 	}
@@ -57,33 +59,18 @@ public class SimpleDisplay extends Display {
 				.append(imgProperties.getProperty("Focal Length", "--")).toString());
 	}
 	
-	void setFileNameText(ShadowFormattedTextBlock block, Properties imgProperties) {
-		block.setText(imgProperties.getProperty("Date/Time Original","")+" "
+	void setFileNameText(ShadowFormattedTextBlock block, ReadyImageCortege cortege) {
+		block.setText(cortege.getInfo().getProperty("Date/Time Original","")+" "
 		//		+ removeCloudMailUnnecessaryInfo(imgProperties.getProperty("path","")));
-				+ imgProperties.getProperty("path",""));		
+				+cortege.getPath().getShortPathForDisplay());		
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {}
 	
-	/** I don't like long recondite links provided Cloud.Mail.ru.
-	 *  This is sample: https://cloclo5.cldmail.ru/QZWMepdZ2AJTvYHHJUV/G/DQEv/h67e4AAF9/DSC05160.jpg?key=b37e69e9353792c7787643818335c36548b3b94d
-	 *  I want to leave only host and that part, which starts from folder's name
-	 * @param string - path to check and remove if it needed
-	 * @return processed path
-	 */
-	private String removeCloudMailUnnecessaryInfo(String string){ //TODO - Move from here... finding palce
-		if(!string.contains("mail.ru")) return string;
-		
-		int counter = 0;
-		String[] parts = string.split("?")[0].split("/");
-		StringBuilder result = new StringBuilder("https://cloud.mail.ru...");
-		for(String part : parts) {
-			if(7 < parts.length &&  counter > 6) result.append(part);
-			if(counter == 0) result.append("//");
-			if(counter < parts.length-1) result.append("/");
-			
-			counter++;
-		}
-		return result.toString();
-	}
+	
+	
+	
 	
 }
 

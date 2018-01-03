@@ -1,14 +1,14 @@
-package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
+package blindpew123.cloudscreensaver.imagelistreaders.parsers;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.*;
 
-import blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru.CharParser;
-import blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru.PageParser;
-import blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru.QuotesParser;
-import blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru.WordParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.CharParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.PageParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.QuotesParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.WordParser;
 
 
 public class QuotesParserTest {
@@ -18,7 +18,7 @@ public class QuotesParserTest {
 	
 	@Before
 	public void initInstance() {
-		 pageParser = new PageParser(null, null) {
+		 pageParser = new PageParser(null) {
 
 			@Override
 			protected CharParser initCharParser() {

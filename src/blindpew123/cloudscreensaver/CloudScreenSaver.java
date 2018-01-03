@@ -15,8 +15,6 @@ import blindpew123.cloudscreensaver.imagelistreaders.*;
 
 public class CloudScreenSaver {
 	
-	SettingsDialog settingsDialog;
-	ImageFileListReadersManager readersManager = ImageFileListReadersManager.getInstance(); 
 
 	public static void main(String[] args) {
 		
@@ -26,7 +24,8 @@ public class CloudScreenSaver {
 		 		new CloudScreenSaver().openSettingsDialog();
 		 		break;
 			  case "/s":
-				//run Screen Saver          
+				//run Screen Saver 
+				  new CloudScreenSaver().startScreenSaver();
 				 break;
 			  default: 		    	
 				break;
@@ -37,11 +36,15 @@ public class CloudScreenSaver {
 	}
 	
 	private void openSettingsDialog() {
-		//TODO открыть диалог, передать необходимые данные. Ошибки
-		new SettingsDialog(readersManager);
+		//TODO  Исключения
+		new SettingsDialog(ImageFileListReadersManager.getInstance());
 	}
 	
 	private void startScreenSaver() {
-		// TODO основной режим. Ошибки
+		// TODO Исключения рантайм?
+		ScreenSaver scrSaver = new ScreenSaver();
+		scrSaver.initScreenSaver();		
+		scrSaver.startScreenSaver();
+		
 	}
 }

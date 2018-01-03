@@ -1,14 +1,18 @@
-package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
+package blindpew123.cloudscreensaver.imagelistreaders.parsers;
 
 import java.io.*;
 import java.util.*;
+
+import blindpew123.cloudscreensaver.display.image.ImageReadingException;
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
+
 import java.net.*;
 
 public abstract class PageParser {	
-	private final Map<String, Boolean> fileMap = new HashMap<>();	
+	private final Set<ImagePath> fileSet = new HashSet<>();	
 
-	private final String basePath;
-	private final String currentLevelPath;
+	private final ImagePath currentLevelPath; 
+	
 	
 	private CharParser charParser;
 	private WordParser wordParser;
@@ -16,25 +20,24 @@ public abstract class PageParser {
 	private Deque<Character> charParseDeque = new LinkedList<>();
 	private Deque<String> wordParseDeque = new LinkedList<>();	
 
-	public PageParser(String basePath, String currentLevelPath) {
-		this.basePath = basePath;
-		this.currentLevelPath = currentLevelPath;
+	public PageParser(ImagePath path) {
+		this.currentLevelPath = path;
 	}
 	
-	public final Map<String, Boolean> processPage() {
+	public final Set<ImagePath> processPage(){
 		charParser = initCharParser();
-	    wordParser = initWordParser();
+	    wordParser = initWordParser();	    
 	    try (BufferedReader s = new BufferedReader(new InputStreamReader(getUrl().openStream()))) {
-			String inputLine;
+	    	String inputLine;
 			while ((inputLine = s.readLine()) != null) {
 				char[] buffer = inputLine.toCharArray();
 				processBuffer(buffer);
 			}
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new ImageReadingException(e.getMessage(), currentLevelPath);
 		}
 	    finalProcessing();
-		return getFileMap();
+		return getFileSet();
 	}
 		
 	protected abstract CharParser initCharParser();
@@ -45,15 +48,11 @@ public abstract class PageParser {
 	
 	protected abstract void finalProcessing();	
 
-	protected final Map<String, Boolean> getFileMap(){
-		return fileMap;
+	public final Set<ImagePath> getFileSet(){
+		return fileSet;
 	}
 	
-	protected final String getBasePath() {
-		return basePath;
-	}
-	
-	protected final String getCurrentLevelPath() {
+	protected final ImagePath getCurrentLevelPath() {
 		return currentLevelPath;
 	}
 	
@@ -61,7 +60,7 @@ public abstract class PageParser {
 		return charParser;
 	}
 	
-	protected void setCharParser(CharParser chParser) {
+	public void setCharParser(CharParser chParser) {
 		charParser = chParser;
 	}
 	
@@ -69,7 +68,7 @@ public abstract class PageParser {
 		return wordParser;
 	}
 	
-	protected void setStringParser(WordParser wParser) {
+	public void setStringParser(WordParser wParser) {
 		wordParser = wParser;
 	}
 	protected Deque<Character> getCharParseDeque() {
@@ -80,7 +79,7 @@ public abstract class PageParser {
 		this.charParseDeque = charParseDeque;
 	}
 
-	protected Deque<String> getWordParseDeque() {
+	public Deque<String> getWordParseDeque() {
 		return wordParseDeque;
 	}
 
@@ -89,7 +88,7 @@ public abstract class PageParser {
 	}
 
 	private URL getUrl() throws MalformedURLException {
-		return new URL(getBasePath() + getCurrentLevelPath());
+		return new URL(currentLevelPath.getAbsolutePath());
 	}
 	
 	

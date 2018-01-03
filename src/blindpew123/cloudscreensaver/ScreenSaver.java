@@ -10,6 +10,8 @@ import blindpew123.cloudscreensaver.display.Display;
 import blindpew123.cloudscreensaver.display.DisplayManager;
 import blindpew123.cloudscreensaver.display.SimpleDisplay;
 import blindpew123.cloudscreensaver.display.image.ImageFeeder;
+import blindpew123.cloudscreensaver.display.image.ImageReadersManager;
+import blindpew123.cloudscreensaver.display.image.ReadyImageCortege;
 import blindpew123.cloudscreensaver.imagelistreaders.ImageFileListReadersManager;
 import blindpew123.cloudscreensaver.settings.SettingsFile;
 
@@ -22,26 +24,32 @@ public class ScreenSaver {
 	
 	public void initScreenSaver() {
 		// TODO: Обработка runtime Исключений и вывод диалога
-		settingsFile = SettingsFile.getInstance();
-		String startFoldersPathNames = settingsFile.getSettingsStringValue("pathsValues");
-		if (startFoldersPathNames == null) {
-			System.out.println("TODO: переделать на диалог об ошибке. Не указан путь");
-			return;
-		}
-		
 		displayModule = DisplayManager.getInstance().getDisplay();
-		//TODO: набор ридеров должен передаваться из ридер менежера на основе путей файлов И настроек (кэш, изображения по дефолту)
-		feeder = new ImageFeeder(displayModule.getPrefferableImageSize(), ImageFileListReadersManager.getInstance().getFileTrees(startFoldersPathNames.split(";")));
+		feeder = new ImageFeeder(displayModule.getPrefferableImageSize(), 
+				ImageFileListReadersManager.getInstance().getFileTrees(SettingsFile.getInstance().getStartingPathsList()),
+				ImageReadersManager.getInstance().getReader());
 		initSuccess = true;
 	}
 	
-	public void startScreenSaver() throws InterruptedException {
+	public void startScreenSaver()  {
+		try {
+		//	Thread.sleep(Integer.parseInt((String)SettingsFile.getInstance().getSettingsValue("timeOutUntilStart"))); // wait, we need some time for partial filling list of images
+			Thread.sleep((Integer)SettingsFile.getInstance().getSettingsValue("timeOutUntilStart"));
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
 		feeder.startFeed();
-		// TODO Решить что делать с Interrupted и другими
 		while(initSuccess) {  //working loop until key or mouse event will not exit app. Also app may will close by catch Exception by ImageFeeder class  
-			displayModule.setImage(feeder.getReadyImageFromQueue());
+			
+			ReadyImageCortege tmp = feeder.getReadyImageFromQueue(); 
+			if (tmp == null) {return;}
+			displayModule.setImage(tmp);			
 			displayModule.display();
-			Thread.sleep(4000); //TODO: Таймаут из настроек
+			try{
+				Thread.sleep(Integer.parseInt((String)SettingsFile.getInstance().getSettingsValue("imagesTimeOut"))*1000);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
 		}
 		
 	}

@@ -15,12 +15,12 @@ import javax.swing.UIManager;
 import javax.swing.JLabel;
 import java.awt.Font;
 
-public class TestPanel extends JPanel {
+public class TestPanel_Remove extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public TestPanel() {
+	public TestPanel_Remove() {
 		setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("<html> <style>" + 

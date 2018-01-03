@@ -1,10 +1,12 @@
 package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
 
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.*;
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
 
 public class CMRPageParser extends PageParser {
 
-	public CMRPageParser(String basePath, String currentLevelPath) {
-		super(basePath, currentLevelPath);
+	public CMRPageParser(ImagePath currentLevelPath) {
+		super(currentLevelPath);
 	}
 
 	@Override

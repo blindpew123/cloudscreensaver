@@ -8,6 +8,7 @@ import java.util.Set;
 
 import blindpew123.cloudscreensaver.imagelistreaders.ImageFileListReadersManager;
 import blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru.CMRSecondStagePageParser;
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
 import blindpew123.cloudscreensaver.settings.SettingsFile;
 
 public class CMRHttpImageReader extends ImageReader {
@@ -25,39 +26,39 @@ public class CMRHttpImageReader extends ImageReader {
 	}
 
 	@Override
-	ReadyImageCortege getImage(String path) {
+	ReadyImageCortege getImage(ImagePath path) {
 		if (path == null) {return null;} 
-		if (!ImageFileListReadersManager.isCloudMailRuPath(path)) {
+		if (!path.isCloudMailRuPath()) {
 				return nextImageReader == null ? null : nextImageReader.getImage(path);				
 		}
-		Map<String, Boolean> map = new CMRSecondStagePageParser(path, "").processPage();
-		if(map.size() == 0) {return null;} // TODO: or may be throw ?
+		Set<ImagePath> set = new CMRSecondStagePageParser(path).processPage();
+		if(set.isEmpty()) {return null;} 
 		
-		splitPath(path);
-		addPathParts(map);
+		splitPath(path.getAbsolutePath());
+		addPathParts(set);
 		ReadyImageCortege result = null;
 		ImageReader reader = new HttpImageReader(null);
 		do {
-			result = reader.getImage(buildPath(currentShard)); //default shard, already in the list
+			result = reader.getImage(new ImagePath(buildPath(currentShard),false)); //default shard, already in the list
 			if (result != null) {break;}
 			shards.remove(currentShard);
-			if (shards.size()==0) {break;}
+			if (shards.isEmpty()) {break;}
 			currentShard = shards.iterator().next();
-		} while(true); //TODO: Здесь условие проверки времени запросов
+		} while(true); //TODO: Make break when timeout between images is exceeded
 		return result;		
 	}
 	
-	private void addPathParts(Map<String, Boolean> map) { // true - shard, false - key
-		for(String str:map.keySet()) {
-			if (map.get(str)) {
-				String[] fullShardElements = str.split("/");
+	private void addPathParts(Set<ImagePath> set) { // true - shard, false - key
+		for(ImagePath part : set) {
+			if (part.getPath().startsWith("https:")) {
+				String[] fullShardElements = part.getPath().split("/");
 				for(int i = fullShardElements.length-1 ; i>=0; i--) {
 					pathParts.push(fullShardElements[i]);
 				}
 				shards.add(fullShardElements[SHARD_POSITION]); // fill up collection of shards
 				currentShard = fullShardElements[SHARD_POSITION];
 			}
-			else  pathParts.add("?key="+str);
+			else  pathParts.add("?key="+part);
 		}		
 	}
 	

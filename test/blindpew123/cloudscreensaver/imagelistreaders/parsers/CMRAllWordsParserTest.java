@@ -1,4 +1,4 @@
-package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
+package blindpew123.cloudscreensaver.imagelistreaders.parsers;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +8,8 @@ import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.*;
 
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru.CMRWordParserReadyState;
+
 public class CMRAllWordsParserTest {
 	
 	PageParser pageParser;
@@ -15,7 +17,7 @@ public class CMRAllWordsParserTest {
 	
 	@Before
 	public void init() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-		pageParser = new PageParser(null, null) {
+		pageParser = new PageParser(null) {
 			@Override
 			protected WordParser initWordParser() {return new CMRWordParserReadyState(this);}
 			@Override
@@ -37,8 +39,8 @@ public class CMRAllWordsParserTest {
 		for(String word:words) {
 			pageParser.getStringParser().process(word);
 		}
-		assertThat(pageParser.getFileMap().size(),equalTo(1));
-		assertThat(pageParser.getFileMap().keySet().iterator().next(),equalTo("http://"));
+		assertThat(pageParser.getFileSet().size(),equalTo(1));
+		assertThat(pageParser.getFileSet().iterator().next().getPath(),equalTo("http://"));		
 	}	
 	
 	@Test
@@ -47,7 +49,7 @@ public class CMRAllWordsParserTest {
 		for(String word:words) {
 			pageParser.getStringParser().process(word);
 		}
-		assertThat(pageParser.getFileMap().size(),equalTo(0));
+		assertThat(pageParser.getFileSet().size(),equalTo(0));
 	}
 	
 	@Test
@@ -58,8 +60,8 @@ public class CMRAllWordsParserTest {
 			pageParser.getStringParser().process(word);
 			processNull();
 		}
-		assertThat(pageParser.getFileMap().size(),equalTo(1));
-		assertThat(pageParser.getFileMap().keySet().iterator().next(),equalTo("http://"));		
+		assertThat(pageParser.getFileSet().size(),equalTo(1));
+		assertThat(pageParser.getFileSet().iterator().next().getPath(),equalTo("http://"));		
 	}
 	
 	void processNull() {

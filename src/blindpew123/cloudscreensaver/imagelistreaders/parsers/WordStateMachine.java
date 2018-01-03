@@ -1,6 +1,6 @@
-package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
+package blindpew123.cloudscreensaver.imagelistreaders.parsers;
 
-interface WordStateMachine {
+public interface WordStateMachine {
 	boolean process(String value); 
 	default boolean isNotNull(String value) {
 		return value != null;

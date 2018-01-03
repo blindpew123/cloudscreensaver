@@ -1,12 +1,15 @@
 package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
 
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.CharParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.PageParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.QuotesParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.WordParser;
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
+
 public class CMRSecondStagePageParser extends PageParser {
 	
-	private boolean isPath = false;
-
-	
-	public CMRSecondStagePageParser(String prefix, String currentLevelPath){
-		super(prefix, currentLevelPath);
+	public CMRSecondStagePageParser(ImagePath path){
+		super(path);
 	}
 	
 	@Override
@@ -28,7 +31,7 @@ public class CMRSecondStagePageParser extends PageParser {
 			if(getCharParser().process(buffer[i])) {
 				String word = getCharParser().getKeyWord().toString();
 				if (getStringParser().process(word)) {
-					getFileMap().put(word, isPath=!isPath);
+					getFileSet().add(new ImagePath(word, false));
 				}
 			}
 		}	

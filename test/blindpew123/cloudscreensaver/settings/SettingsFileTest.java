@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import blindpew123.cloudscreensaver.imagelistreaders.ImageFileList;
+
 public class SettingsFileTest {
 
 	
@@ -37,5 +39,6 @@ public class SettingsFileTest {
 		Object num = (Integer)settings.getSettingsValue("maxNumCashedImages");
 		assertTrue(num instanceof Integer);		
 	}
-
+	
+	
 }

@@ -1,4 +1,4 @@
-package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
+package blindpew123.cloudscreensaver.imagelistreaders.parsers;
 
 public class QuotesParser extends CharParser {
 	
@@ -8,7 +8,7 @@ public class QuotesParser extends CharParser {
 	
 	boolean quotesOpened = false;
 	@Override
-	protected boolean process(char c) {			
+	public boolean process(char c) {			
 		if(!getContext().getCharParseDeque().isEmpty()){
 			getContext().getCharParseDeque().pop();
 			quotesOpened = false;	

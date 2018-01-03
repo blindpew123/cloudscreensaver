@@ -15,6 +15,7 @@ import blindpew123.cloudscreensaver.display.image.HttpImageReader;
 import blindpew123.cloudscreensaver.display.image.ImageReader;
 import blindpew123.cloudscreensaver.display.image.LocalImageReader;
 import blindpew123.cloudscreensaver.display.image.ReadyImageCortege;
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
 
 
 public class HttpImageReaderTest {
@@ -29,13 +30,13 @@ ImageReader reader;
 	@Test
 	public void testUnsucssesfullyRead() {
 		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC01594.jpg").toAbsolutePath();
-		ReadyImageCortege img = reader.getImage(path.toString());
+		ReadyImageCortege img = reader.getImage(new ImagePath(path.toString(), false));
 		assertNull(img);
 	}
 	
 	@Test
 	public void testSucssesfullyRead() {
-		ReadyImageCortege img = reader.getImage("https://cloclo41.datacloudmail.ru/weblink/thumb/xw1/DQEv/h67e4AAF9/DSC05252.jpg");
+		ReadyImageCortege img = reader.getImage(new ImagePath("https://cloclo41.datacloudmail.ru/weblink/thumb/xw1/DQEv/h67e4AAF9/DSC05252.jpg", false));
 		assertThat(img.getImage().getHeight(), equalTo(3264));
 	}
 	
@@ -43,7 +44,7 @@ ImageReader reader;
 	public void testBypassImage() {
 		reader = new HttpImageReader(new LocalImageReader(null));
 		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC01594.jpg").toAbsolutePath();
-		ReadyImageCortege img = reader.getImage(path.toString());
+		ReadyImageCortege img = reader.getImage(new ImagePath(path.toString(), false));
 		assertThat(img.getImage().getHeight(), equalTo(2552));
 	}
 	
@@ -51,7 +52,7 @@ ImageReader reader;
 	public void testBypassNull() {
 		reader = new HttpImageReader(new LocalImageReader(null));
 		Path path = Paths.get("src/blindpew123/cloudscreensaver/resources/DSC.jpg").toAbsolutePath();
-		ReadyImageCortege img = reader.getImage(path.toString());
+		ReadyImageCortege img = reader.getImage(new ImagePath(path.toString(), false));
 		assertNull(img);
 	}
 	

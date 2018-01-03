@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.util.concurrent.*;
 
 import blindpew123.cloudscreensaver.imagelistreaders.ImageFileList;
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
 
 /* Имея настройки мы знаем какого размера изображения мы должны выдавать
  * (метод расчета размеров изображения)
@@ -17,32 +18,34 @@ public class ImageFeeder {
 	 * способы перехода и текущий размер экрана
 	 * 
 	 */
-	private Rectangle prefferableSize;
-	private ImageFileList fileList;
-	private SynchronousQueue<ReadyImageCortege> readyImage = new SynchronousQueue<>();
+	private final Rectangle prefferableSize;
+	private final ImageFileList fileList;
+	private final SynchronousQueue<ReadyImageCortege> readyImage;
+	private final ImageReader imgReader; 
 	
 	private class ImageProcessor implements Runnable {
 
-		//TODO: 1. ReadersManager 
-		ImageReader imgReader =  ImageReadersManager.getInstance().getReader();
+		
 		
 		@Override
 		public void run() {			
 			while(true) {			
 				try{
-					String path = fileList.nextImagePath();
-					readyImage.put(imgReader.getImage(path));
+					ImagePath path = fileList.nextImagePath();
+					ReadyImageCortege tmpCort = imgReader.getImage(path);
+					readyImage.put(tmpCort);
 				} catch (InterruptedException e) {
-					// TODO: RuntimeError - Message For User???
-					throw new RuntimeException(e);
+					Thread.currentThread().interrupt();
 				}
 			}		
 		}
 	}
 	
-	public ImageFeeder(Rectangle prefferableSize, ImageFileList fileList) {
+	public ImageFeeder(Rectangle prefferableSize, ImageFileList fileList, ImageReader imgReader) {
 		this.prefferableSize = prefferableSize;
-		this.fileList = fileList;		
+		this.fileList = fileList;
+		this.imgReader = imgReader;
+		readyImage = new SynchronousQueue<>();
 	}
 	
 	public void startFeed() {
@@ -54,8 +57,9 @@ public class ImageFeeder {
 		try {
 			return readyImage.take();
 		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
+			Thread.currentThread().interrupt();
 		}
+		return null;
 	}
 	
 	

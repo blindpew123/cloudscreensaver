@@ -116,10 +116,10 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="12" language="java" name="blindpew123.cloudscreensaver.imagelistreaders.parsers.PageParser" 
+  <class id="12" language="java" name="blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru.PageParser" 
     project="ScreenSaver 2.0" 
-    file="/ScreenSaver 2.0/src/blindpew123/cloudscreensaver/imagelistreaders/parsers/PageParser.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
+    file="/ScreenSaver 2.0/src/blindpew123/cloudscreensaver/imagelistreaders/parsers/cloudmailru/PageParser.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1514" y="808"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -171,10 +171,10 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="17" language="java" name="blindpew123.cloudscreensaver.imagelistreaders.parsers.WordParser" 
+  <class id="17" language="java" name="blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru.WordParser" 
     project="ScreenSaver 2.0" 
-    file="/ScreenSaver 2.0/src/blindpew123/cloudscreensaver/imagelistreaders/parsers/WordParser.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
+    file="/ScreenSaver 2.0/src/blindpew123/cloudscreensaver/imagelistreaders/parsers/cloudmailru/WordParser.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1897" y="943"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -227,9 +227,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="22" language="java" name="blindpew123.cloudscreensaver.imagelistreaders.parsers.WordStateMachine" 
-    project="ScreenSaver 2.0" 
-    file="/ScreenSaver 2.0/src/blindpew123/cloudscreensaver/imagelistreaders/parsers/WordStateMachine.java" 
+  <interface id="22" language="java" 
+    name="blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru.WordStateMachine" project="ScreenSaver 2.0" 
+    file="/ScreenSaver 2.0/src/blindpew123/cloudscreensaver/imagelistreaders/parsers/cloudmailru/WordStateMachine.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2067" y="1370"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

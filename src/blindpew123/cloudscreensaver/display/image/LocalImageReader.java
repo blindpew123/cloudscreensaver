@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 
 import javax.imageio.ImageIO;
 
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
+
 public class LocalImageReader extends ImageReader implements MetaReader {
 
 	LocalImageReader(ImageReader reader) {
@@ -13,16 +15,16 @@ public class LocalImageReader extends ImageReader implements MetaReader {
 	}
 	
 	@Override
-	ReadyImageCortege getImage(String path) {
+	ReadyImageCortege getImage(ImagePath path) {
 		ReadyImageCortege result = null;
 		if (nextImageReader!=null) {
 			result = nextImageReader.getImage(path);
 			if (result != null) return result;
 		}		
 		try {
-			BufferedImage image = ImageIO.read(new File(path));
+			BufferedImage image = ImageIO.read(new File(path.getPath()));
 			if (image != null) {
-				result = createCortege(image, readExif(new FileInputStream(new File(path))), path);
+				result = new ReadyImageCortege(image, path, readExif(new FileInputStream(new File(path.getPath()))));
 			}
 		} catch(Exception e) {} 
 		return result;

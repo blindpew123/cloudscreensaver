@@ -1,4 +1,4 @@
-package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
+package blindpew123.cloudscreensaver.imagelistreaders.parsers;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
@@ -8,6 +8,12 @@ import java.lang.reflect.Field;
 import org.junit.Before;
 import org.junit.Test;
 
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.CharParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.PageParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.WordParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru.CMRSecondStageTagParser;
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
+
 public class CMRSecondStageTagParserTest {
 
 	PageParser pageParser;
@@ -15,7 +21,7 @@ public class CMRSecondStageTagParserTest {
 	
 	@Before
 	public void init() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-		pageParser = new PageParser(null, null) {
+		pageParser = new PageParser(new ImagePath("",false)) {
 			@Override
 			protected WordParser initWordParser() {return new CMRSecondStageTagParser();}
 			@Override

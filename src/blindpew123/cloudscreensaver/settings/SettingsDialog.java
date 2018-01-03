@@ -9,7 +9,7 @@ public class SettingsDialog extends JFrame {
 
 	public SettingsDialog(ImageFileListReadersManager readersManager) {
 		setTitle(SettingsFile.getInstance().getResource("nameSettingsDialog"));
-		setSize(400, 150);
+		setSize(457, 205);
 		getContentPane().add(new SettingsPanel(this, readersManager));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);

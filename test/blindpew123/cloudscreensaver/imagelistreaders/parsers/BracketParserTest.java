@@ -1,9 +1,15 @@
-package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
+package blindpew123.cloudscreensaver.imagelistreaders.parsers;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.BracketParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.CharParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.PageParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.QuotesParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.WordParser;
 
 public class BracketParserTest {
 	
@@ -13,31 +19,23 @@ public class BracketParserTest {
 
 	@Before
 	public void setUp() throws Exception {
-		pp = new PageParser(null, null) {
+		pp = new PageParser(null) {
 
 			@Override
 			protected CharParser initCharParser() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
 			protected WordParser initWordParser() {
-				// TODO Auto-generated method stub
 				return null;
 			}			
 
 			@Override
-			protected void finalProcessing() {
-				// TODO Auto-generated method stub
-				
-			}
+			protected void finalProcessing() {}
 
 			@Override
-			protected void processBuffer(char[] buffer) {
-				// TODO Auto-generated method stub
-				
-			};
+			protected void processBuffer(char[] buffer) {};
 		};
 		parser = new BracketParser(pp);		
 	}

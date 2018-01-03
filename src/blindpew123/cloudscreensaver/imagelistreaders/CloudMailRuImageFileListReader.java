@@ -5,55 +5,55 @@ import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 import blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru.CMRPageParser;
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
+import blindpew123.cloudscreensaver.settings.SettingsFile;
 
 
 
 class CloudMailRuImageFileListReader extends ImageFileListReader {
-	private final String startPath;
-	private final String prefix;
-	
-	//	private final Map<String, Boolean> resultImageTree = new ConcurrentHashMap<>(32,0.75f,4);
-	// private Queue<String> resultImgUrlQueue = new ConcurrentLinkedQueue<>();
-	
+
 	@SuppressWarnings("serial")
 	private class PageReaderTask extends RecursiveAction {
 		private CMRPageParser parser;
 		
-		PageReaderTask(String prefix, String path){
-			parser = new CMRPageParser(prefix, path);
+		PageReaderTask(ImagePath path){
+			if(!path.getPath().startsWith(SettingsFile.getInstance().getSettingsStringValue("cloudMailPrefix"))
+				&& (path.getUrlPrefix().isEmpty())) {
+					path.setUrlPrefix(SettingsFile.getInstance().getSettingsStringValue("cloudMailPrefix"));
+				}			
+			parser = new CMRPageParser(path);
 		}
 		
 		@Override
-		protected void compute() {					
-				Map<String,Boolean> partialResult = parser.processPage(); // All child pages
-				List<ForkJoinTask<?>> tasks = partialResult.keySet()
+		protected void compute() {
+				Set<ImagePath> partialResult = parser.processPage(); // All child pages
+				List<ForkJoinTask<?>> tasks = partialResult
 					.stream()
-					.filter((k)->partialResult.get(k))
-					.map(s->new PageReaderTask(prefix, s))
+					.filter(ImagePath::isFolder)
+					.map(PageReaderTask::new)
 					.collect(Collectors.toList()); // Sub-folders to process
 				
-				imageList.getImagesList().addAll(partialResult.keySet()
+				imageList.getImagesList().addAll(partialResult
 						.stream()
-						.filter(k->!partialResult.get(k))						
-						.map(s->ImageFileListReadersManager.getCloudMailRuPrefix()+s)
+						.filter(k->!k.isFolder())						
 						.filter(CloudMailRuImageFileListReader.this::isFormatSupported)
+						.map(p->{p.setUrlPrefix(SettingsFile.getInstance().getSettingsStringValue("cloudMailPrefix"));
+								return p;})
 						.collect(Collectors.toList()));
 				
-				if(!tasks.isEmpty())invokeAll(tasks);  // child folders
+				if(!tasks.isEmpty()) {invokeAll(tasks);}  // child folders
 				
 			} 
 		}		
 	
-	protected CloudMailRuImageFileListReader(String prefix, String startPath, ImageFileList fileList) {
-		super(fileList);
-		this.startPath = startPath;
-		this.prefix = prefix;
+	protected CloudMailRuImageFileListReader(ImagePath path, ImageFileList fileList) {
+		super(path, fileList);
 	}
 	
 	//@Override
 	public void readListTo() {		
 		ForkJoinPool pool = new ForkJoinPool();
-		pool.invoke(new PageReaderTask(prefix, startPath));	
+		pool.invoke(new PageReaderTask(startPath));	
 	}
 
 	@Override

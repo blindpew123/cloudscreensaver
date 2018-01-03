@@ -4,22 +4,23 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-// TODO Random Element getter
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
 
-public class ImageFileList {
+
+public class ImageFileList implements Iterable<ImagePath> {
 	
 	
-	private List<String> imagesList;
+	private List<ImagePath> imagesList;
 
-	ImageFileList(){
+	public ImageFileList(){
 		imagesList = new CopyOnWriteArrayList<>();
 	}
 	
-	ImageFileList(Collection<String> imagesList){
+	public ImageFileList(Collection<ImagePath> imagesList){
 		this.imagesList = new CopyOnWriteArrayList<>(imagesList);
 	}
 	
-	public List<String> getImagesList() {
+	public List<ImagePath> getImagesList() {
 		return imagesList;
 	}
 	
@@ -31,9 +32,14 @@ public class ImageFileList {
 		return imagesList.size();
 	}
 	
-	public String nextImagePath() {
+	public ImagePath nextImagePath() {
 		if(imagesList.isEmpty()) return null;
 		return imagesList.get(ThreadLocalRandom.current().nextInt(imagesList.size()));
+	}
+
+	@Override
+	public Iterator<ImagePath> iterator() {		
+		return imagesList.iterator();
 	}
 	
 }

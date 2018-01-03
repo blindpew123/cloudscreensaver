@@ -1,5 +1,8 @@
 package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
 
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.PageParser;
+import blindpew123.cloudscreensaver.imagelistreaders.parsers.WordParser;
+
 public class CMRWordParserTag extends WordParser {
 
 	public CMRWordParserTag(PageParser context) {

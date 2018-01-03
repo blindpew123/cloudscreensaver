@@ -17,11 +17,6 @@ public class ImageReadersManager {
 	private Map<ReaderName, Boolean> buildMap;
 	private static ImageReadersManager instance;
 	private enum ReaderName {
-		DEFAULT{
-			ImageReader reader(ImageReader nextReader) {
-				return new DefaultImageReader(nextReader);
-			}
-		},
 		CACHE{
 			ImageReader reader(ImageReader nextReader) {
 				return new CacheImageReader(nextReader);
@@ -33,6 +28,11 @@ public class ImageReadersManager {
 						.getInstance()
 						.getDisplay()
 						.getPrefferableImageSize(),nextReader);
+			}
+		},
+		DEFAULT{
+			ImageReader reader(ImageReader nextReader) {
+				return new DefaultImageReader(nextReader);
 			}
 		},
 		LOCAL{

@@ -4,8 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
+
+import blindpew123.cloudscreensaver.imagelistreaders.ImageFileList;
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
 
 public class SettingsFile {
 
@@ -37,6 +42,14 @@ public class SettingsFile {
 		return settings.get(name);
 	}
 	
+	public synchronized ImageFileList getStartingPathsList() {
+		List<ImagePath> paths = new ArrayList<>();
+		for(String path : getSettingsStringValue("pathsValues").split(";")) {
+			paths.add(new ImagePath(path.trim(), true));
+		}
+		return  paths.isEmpty() ? new ImageFileList(): new ImageFileList(paths);
+	}
+	
 	public synchronized File getAppDirectory() {
 		File thisAppDir = new File(new File(System.getProperty("user.home")),APP_DIRECTORYNAME);
 		if(!thisAppDir.exists()) {
@@ -58,11 +71,14 @@ public class SettingsFile {
 	private SettingsFile() {
 		settings = getSettings();
 		// All that will be included in Settings Dialog in the future
+		// TODO: Default values
 		settings.put("minNumPathsForQuickstart",10);
+		settings.put("timeOutUntilStart", 1);
 		settings.put("maxNumCashedImages", 50);
 		settings.put("cloudMailPrefix", "https://cloud.mail.ru/public/");
 		settings.put("useDefaultImages",true);
 		settings.put("useCacheForImages",true);
+		settings.put("fontSize",18);
 	}
 	
 	private Properties getSettings() {

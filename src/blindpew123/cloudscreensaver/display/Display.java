@@ -2,19 +2,12 @@ package blindpew123.cloudscreensaver.display;
 
 import java.awt.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import blindpew123.cloudscreensaver.display.image.ReadyImageCortege;
 
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-/* Абстрактный класс для описывающий шаблонный метод 
- * TODO: Реализовать СлайдШоу в отдельном классе 
- * */
 
 @SuppressWarnings("serial")
 public abstract class Display extends JPanel implements ActionListener{
@@ -27,6 +20,7 @@ public abstract class Display extends JPanel implements ActionListener{
 	private ReadyImageCortege imageCortege;
 	private boolean readyToShow = false;
 	int  ttt = 0;
+	private Point startLocation;
 	
 	
 	private class KeyHandler extends KeyAdapter {
@@ -36,17 +30,22 @@ public abstract class Display extends JPanel implements ActionListener{
 		}
 	}
 	
-	private class MouseHandler extends MouseAdapter { // TODO: Нужна реализация нормально работающая с мышью
+	private class MouseHandler extends MouseAdapter { 
 		@Override
-		public void mouseMoved(MouseEvent e) {
+		public void mousePressed(MouseEvent e) {
 			System.exit(0);
 		}
 	}	
+	
+	private class Listener implements AWTEventListener {
+        public void eventDispatched(AWTEvent event) {
+        	if(!startLocation.equals(MouseInfo.getPointerInfo().getLocation())) {System.exit(0);}
+        }
+    }
 	public Display() {
 		super(null);
-		//TODO: make it better
-		setKeyHandler(new KeyHandler());
-		setMouseHandler(new MouseHandler());
+		
+		setEventListeners();
 		
 		frame.setUndecorated(true);
 		rectangle = GraphicsEnvironment.getLocalGraphicsEnvironment()
@@ -56,13 +55,8 @@ public abstract class Display extends JPanel implements ActionListener{
 	    setBackground(color);
 	    frame.add(this);    
 		frame.setVisible(true);		
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		System.exit(0);		//TODO: What's happened here?
-	}
-	
+	}	
+
 	@Override
 	public final void paintComponent (Graphics g) {	
 		super.paintComponent(g);
@@ -92,7 +86,7 @@ public abstract class Display extends JPanel implements ActionListener{
 	}
 	
 	public final void setMouseHandler(MouseListener mouseHandler) {
-		frame.addMouseListener(mouseHandler); 
+		this.addMouseListener(mouseHandler); 
 	}
 	
 	protected ReadyImageCortege getImageCortege() {
@@ -101,6 +95,14 @@ public abstract class Display extends JPanel implements ActionListener{
 	
 	protected Rectangle getScreenSize() {
 		return rectangle;
+	}
+	
+	protected void setEventListeners() {
+		startLocation = MouseInfo.getPointerInfo().getLocation();
+		setKeyHandler(new KeyHandler());
+		setMouseHandler(new MouseHandler());
+		Toolkit.getDefaultToolkit().addAWTEventListener(
+		          new Listener(), AWTEvent.MOUSE_MOTION_EVENT_MASK);			
 	}
 	
 

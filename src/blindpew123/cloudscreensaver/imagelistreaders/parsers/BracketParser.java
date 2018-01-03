@@ -1,4 +1,4 @@
-package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
+package blindpew123.cloudscreensaver.imagelistreaders.parsers;
 
 public class BracketParser extends CharParser {
 
@@ -7,7 +7,7 @@ public class BracketParser extends CharParser {
 	}
 	
 	@Override
-	protected boolean process(char c) {
+	public boolean process(char c) {
 		switch (c) {
 			case '[': getContext().getCharParseDeque().push(c);					  
 					  break;

@@ -1,6 +1,6 @@
-package blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru;
+package blindpew123.cloudscreensaver.imagelistreaders.parsers;
 
-abstract class  CharParser {
+public abstract class  CharParser {
 	
 	private PageParser context;
 	private StringBuilder keyWord = new StringBuilder();
@@ -11,13 +11,13 @@ abstract class  CharParser {
 	
 	CharParser(){} // is used in case processing char directly, without state switching
 	
-	protected abstract boolean process(char c);
+	public abstract boolean process(char c);
 	
 	protected PageParser getContext() {
 		return context;
 	}
 	
-	protected StringBuilder getKeyWord() {
+	public StringBuilder getKeyWord() {
 		return keyWord;
 	}
 

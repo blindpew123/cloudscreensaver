@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import blindpew123.cloudscreensaver.imagepath.ImagePath;
 import blindpew123.cloudscreensaver.settings.SettingsFile;
 
 /**
@@ -27,68 +28,41 @@ public class ImageFileListReadersManager {
 		return instance;
 	}
 	
-	public ImageFileList getFileTrees(String[] startFoldersPathNames) {
+	public ImageFileList getFileTrees(ImageFileList startFoldersPathNames) {
 		initLists();
-		for(String path:startFoldersPathNames) {
-			setReaderForPath(path.trim());	
+		if(startFoldersPathNames != null) { 
+			for(ImagePath path:startFoldersPathNames) {
+				setReaderForPath(path);	
+			}
+			ExecutorService es = Executors.newWorkStealingPool();
+			for(ImageFileListReader reader : readers) {
+				es.execute(reader::readListTo);
+			}
+			es.shutdown();
 		}
-		ExecutorService es = Executors.newWorkStealingPool();
-		for(ImageFileListReader reader : readers) {
-			es.execute(reader::readListTo);
-		}
-		es.shutdown();
 		return sumOfAllTrees;
 	}
 	
-	private void setReaderForPath(String path) {
+	private void setReaderForPath(ImagePath path) {
 		ImageFileListReader currentReader = null;
 		currentReader = getReader(path, sumOfAllTrees);
 		if(currentReader == null) throw new IllegalArgumentException();
 		readers.add(currentReader);
 	}
 	
-	private ImageFileListReader getReader(String path, ImageFileList fileList) {
+	private ImageFileListReader getReader(ImagePath path, ImageFileList fileList) {
 		ImageFileListReader reader = null;
-		if (!preCheck(path)) {return reader;}
-		if(isLocalOrLocalNetworkPath(path)) {
+		if(path.isLocalOrLocalNetworkPath()) {
 			reader = new LocalFileSystemImageFileListReader(path, fileList);
-		} else if(isCloudMailRuPath(path)) {
-			String[] prefix0path1 = splitPathToPrefixAndVariablePath(path);
-			reader = new CloudMailRuImageFileListReader(prefix0path1[0],prefix0path1[1], fileList);
+		} else if(path.isCloudMailRuPath()) {
+			reader = new CloudMailRuImageFileListReader(path, fileList);
 		} // here may be another types of readers
 		return reader;
 	}
 	
-	public boolean isReaderAvailable(String path) {
-		return getReader(path,null) != null;
+	public boolean isReaderAvailable(ImagePath path) {
+		return path == null ? false : getReader(path,null) != null;
 	}
-	
-	// TODO: remove static methods to another class
-	
-	public static boolean isCloudMailRuPath(String path) {		
-		return path.startsWith(getCloudMailRuPrefix());		
-	}
-	
-	public static boolean isLocalOrLocalNetworkPath(String path) {
-		return (path.charAt(1)!=':' && path.charAt(1)!='/') 
-				&& (!('A'<= path.charAt(0) && path.charAt(0)<='z' || path.charAt(0) =='/' ));
-	}
-	
-	public static String getCloudMailRuPrefix() {		
-		return SettingsFile.getInstance().getSettingsStringValue("cloudMailPrefix").trim();
-	}
-	
-	private static String[] splitPathToPrefixAndVariablePath(String path) {		
-		if(path.startsWith(getCloudMailRuPrefix())) {
-			return new String[] {getCloudMailRuPrefix(), path.replace(getCloudMailRuPrefix(),"")};
-		}
-		throw new IllegalArgumentException(); //That line will be never reached
-	}
-	
-	private static boolean preCheck(String path) {
-		return path!=null && path.length()>2;
-	}	
-	
 	
 	private void initLists() {
 		sumOfAllTrees = new ImageFileList();
