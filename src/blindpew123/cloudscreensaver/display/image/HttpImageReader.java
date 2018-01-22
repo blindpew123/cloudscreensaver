@@ -11,6 +11,10 @@ import javax.imageio.ImageIO;
 
 import blindpew123.cloudscreensaver.imagepath.ImagePath;
 
+/** Read image from url
+ * 
+ */
+
 public class HttpImageReader extends ImageReader implements MetaReader {
 
 	HttpImageReader(ImageReader reader) {

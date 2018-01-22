@@ -73,10 +73,7 @@ public class ImageReadersManagerTest {
 		remotePath = new ImagePath("https://cloud.mail.ru/public/DQEv/h67e4AAF9/DSC.jpg", false);
 		img = currentReader.getImage(remotePath);
 		assertTrue(img.checkError());
-		assertThat(img.getImage().getWidth(), equalTo(1366)); //your screen width;
-		assertThat(img.getInfo().size(), equalTo(38));
-		assertTrue(img.getPath().getPath().contains("cloclo") && img.getPath().getPath().contains("DSC05160.jpg"));
-		
+		assertThat(img.getImage().getWidth(), equalTo(1366)); //your screen width;		
 	}
 
 }

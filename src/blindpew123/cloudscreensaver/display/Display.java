@@ -1,13 +1,16 @@
 package blindpew123.cloudscreensaver.display;
 
 import java.awt.*;
-
 import javax.swing.*;
-
-import blindpew123.cloudscreensaver.display.image.ReadyImageCortege;
-
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import blindpew123.cloudscreensaver.display.image.ReadyImageCortege;
+
+/**
+ *  Base class for different implementation of images displaying 
+ * 
+ *
+ */
 
 @SuppressWarnings("serial")
 public abstract class Display extends JPanel implements ActionListener{
@@ -63,8 +66,14 @@ public abstract class Display extends JPanel implements ActionListener{
 		if(readyToShow) paintImage(g,getImageCortege().getImage());
 	}
 	
+	/**
+	 * implement to draw image	 
+	 */
 	public abstract void paintImage(Graphics g, BufferedImage img);
 	
+	/**
+	 *  implement to display additional text and image by call repaint() 
+	 */	
 	public abstract void display();	
 	
 	

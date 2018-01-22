@@ -11,6 +11,12 @@ import blindpew123.cloudscreensaver.imagelistreaders.parsers.cloudmailru.CMRSeco
 import blindpew123.cloudscreensaver.imagepath.ImagePath;
 import blindpew123.cloudscreensaver.settings.SettingsFile;
 
+/** Reads image from Cloud Mail Ru public image url.
+ *  It tying to get http address of shard, that keeps image. 
+ *  If impossile to get image from this shard, it is removed and reader uses another shard name until it will get image, 
+ *  or while shard queue has at least one element
+ */
+
 public class CMRHttpImageReader extends ImageReader {
 	
 	static final int SHARD_POSITION = 2;

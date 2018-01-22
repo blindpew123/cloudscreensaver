@@ -1,19 +1,17 @@
 package blindpew123.cloudscreensaver;
-/* Получить настройки
- * Получить на основе пути список файлов для обработки
- * создать Fetcher на основе настроек
- * Выбрать подходящий модуль отображения на основе настроек
- * запустить процесс изображения, ловя ошибки 
- */
 
 import blindpew123.cloudscreensaver.display.Display;
 import blindpew123.cloudscreensaver.display.DisplayManager;
-import blindpew123.cloudscreensaver.display.SimpleDisplay;
 import blindpew123.cloudscreensaver.display.image.ImageFeeder;
 import blindpew123.cloudscreensaver.display.image.ImageReadersManager;
 import blindpew123.cloudscreensaver.display.image.ReadyImageCortege;
 import blindpew123.cloudscreensaver.imagelistreaders.ImageFileListReadersManager;
 import blindpew123.cloudscreensaver.settings.SettingsFile;
+
+/**
+ *  Perform init ScreenSaver using current settings
+ *  and starts main application loop
+ */
 
 public class ScreenSaver {
 

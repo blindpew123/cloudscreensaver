@@ -6,6 +6,12 @@ import com.mortennobel.imagescaling.*;
 
 import blindpew123.cloudscreensaver.imagepath.ImagePath;
 
+/**
+ * 
+ * Get image from previous reader and returns image with another dimensions
+ *
+ */
+
 class ImageResizer extends ImageReader{
 	
 	Rectangle screenSize;

@@ -8,6 +8,12 @@ import javax.imageio.ImageIO;
 
 import blindpew123.cloudscreensaver.imagepath.ImagePath;
 
+/**
+ * 
+ * Reads image from local path
+ *
+ */
+
 public class LocalImageReader extends ImageReader implements MetaReader {
 
 	LocalImageReader(ImageReader reader) {

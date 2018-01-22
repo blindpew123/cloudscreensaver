@@ -1,9 +1,7 @@
 package blindpew123.cloudscreensaver.display;
 
-import java.awt.Rectangle;
-
 // Reads the current settings and builds the corresponding Display
-// TODO: not fully implemented yet 
+// TODO: not fully implemented yet. Currently returns SimplyDisplay only 
 
 public class DisplayManager {
 	

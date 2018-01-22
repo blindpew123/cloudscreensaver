@@ -10,6 +10,12 @@ import javax.imageio.ImageIO;
 import blindpew123.cloudscreensaver.imagepath.ImagePath;
 import blindpew123.cloudscreensaver.settings.SettingsFile;
 
+/** Provides one of five predefined images if no more readers available or next reader returns null 
+ * 
+ * 
+ *
+ */
+
 public class DefaultImageReader extends ImageReader {
 
 	//TODO: check real path after deploy

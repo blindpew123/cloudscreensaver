@@ -6,11 +6,8 @@ import java.util.concurrent.*;
 import blindpew123.cloudscreensaver.imagelistreaders.ImageFileList;
 import blindpew123.cloudscreensaver.imagepath.ImagePath;
 
-/* Имея настройки мы знаем какого размера изображения мы должны выдавать
- * (метод расчета размеров изображения)
- * На основе списока файлов начинаем процесс получения и обработки файлов в отдельном потоке
- * обработанные файлы поступают в очередь. Поток обработки приостанавливается до тех пор пока обработанное изображение не будет извлечено модулем отображения
- * 
+/** Get next image path from ImageFileList instance and trying to get that image from an ImageReader in separate thread
+ *  and put it to the SynchronousQueue<ReadyImageCortege>. Another object can get it by calling  getReadyImageFromQueue()
  */
 public class ImageFeeder {
 

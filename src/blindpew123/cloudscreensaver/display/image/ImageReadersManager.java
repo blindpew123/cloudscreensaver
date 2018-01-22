@@ -1,6 +1,5 @@
 package blindpew123.cloudscreensaver.display.image;
 
-import java.awt.Rectangle;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,7 +8,7 @@ import java.util.TreeMap;
 import blindpew123.cloudscreensaver.display.DisplayManager;
 import blindpew123.cloudscreensaver.settings.SettingsFile;
 
-/*
+/**
  * Builds various chains of Image readers
  */
 public class ImageReadersManager {	
@@ -73,7 +72,7 @@ public class ImageReadersManager {
 		buildMap = new TreeMap<>(Comparator.<ReaderName>reverseOrder());
 		buildMap.put(ReaderName.RESIZE, true); // we always have to resize image to fit in screen
 		checkSettingOptions();
-		buildMap.put(ReaderName.LOCAL,true); // TODO: Replace to paths parsing
+		buildMap.put(ReaderName.LOCAL,true); // TODO: Add ReaderNames by settings
 		buildMap.put(ReaderName.HTTP,true);
 		buildMap.put(ReaderName.CMR,true);
 	}

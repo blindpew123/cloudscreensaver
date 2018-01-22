@@ -8,6 +8,10 @@ import java.util.Properties;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Use it for displaying text with shadow over image
+ *  
+ */
 
 class ShadowFormattedTextBlock {
 	

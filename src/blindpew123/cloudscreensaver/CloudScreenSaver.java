@@ -14,34 +14,30 @@ import blindpew123.cloudscreensaver.imagelistreaders.*;
  */
 
 public class CloudScreenSaver {
-	
-
 	public static void main(String[] args) {
-		
-		if(args.length>0) {
-			switch(args[0]) {
-		 	  case "/c": 
-		 		new CloudScreenSaver().openSettingsDialog();
-		 		break;
-			  case "/s":
-				//run Screen Saver 
-				  new CloudScreenSaver().startScreenSaver();
-				 break;
-			  default: 		    	
-				break;
-		  }
-		} else {
-			new CloudScreenSaver().openSettingsDialog();
-		}
+			
+			if(args.length>0) {
+			  switch(args[0].substring(0, 2)) {  // remove don't needed symbols from arguments
+			 	  case "/c":
+			 		new CloudScreenSaver().openSettingsDialog();
+			 		break;
+				  case "/s":
+				  case "/S":
+					  new CloudScreenSaver().startScreenSaver();
+					 break;
+				  default: 		    	
+					break;
+			  }
+			} else {
+				new CloudScreenSaver().openSettingsDialog();
+			}		
 	}
 	
 	private void openSettingsDialog() {
-		//TODO  Исключения
 		new SettingsDialog(ImageFileListReadersManager.getInstance());
 	}
 	
 	private void startScreenSaver() {
-		// TODO Исключения рантайм?
 		ScreenSaver scrSaver = new ScreenSaver();
 		scrSaver.initScreenSaver();		
 		scrSaver.startScreenSaver();

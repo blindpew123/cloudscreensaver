@@ -11,6 +11,11 @@ import javax.swing.SwingConstants;
 import blindpew123.cloudscreensaver.display.image.ReadyImageCortege;
 import blindpew123.cloudscreensaver.settings.SettingsFile;
 
+/**
+ * Display photo fitted to screen size with filename and EXIF information.
+ * 
+ */
+
 @SuppressWarnings("serial")
 public class SimpleDisplay extends Display {
 	

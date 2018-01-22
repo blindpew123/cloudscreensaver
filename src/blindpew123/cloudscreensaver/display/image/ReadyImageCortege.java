@@ -6,6 +6,10 @@ import java.util.Properties;
 
 import blindpew123.cloudscreensaver.imagepath.ImagePath;
 
+/** 
+ * Combines image, path and EXIF
+ */
+
 public class ReadyImageCortege {
 	
 	private BufferedImage img;

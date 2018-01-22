@@ -13,6 +13,10 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifReader;
 
+/**
+ * Provides methods for reading EXIF from image file
+ */
+
 interface MetaReader {
 	
 	default Properties readExif(InputStream stream){
